@@ -1,0 +1,10 @@
+.wrap {
+	.container {
+		.slider {
+			@apply z-0 flex relative;
+			.slide:not(:last-child) {
+				@apply mr-2;
+			}
+		}
+	}
+}

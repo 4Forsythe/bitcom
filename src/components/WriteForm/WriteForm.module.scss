@@ -1,0 +1,36 @@
+.container {
+	@apply px-24 py-14 bg-zinc-50 shadow-sm;
+	.form {
+		@apply w-full mb-3.5 gap-5 flex flex-col;
+		.fields {
+			@apply gap-4 flex flex-col;
+			.title {
+				@apply max-w-[30rem];
+			}
+		}
+		.controls {
+			@apply gap-1.5 flex items-center;
+		}
+	}
+}
+
+@media (max-width: 1024px) {
+	.container {
+		@apply px-14;
+	}
+}
+@media (max-width: 768px) {
+	.container {
+		@apply px-6 py-10;
+	}
+}
+@media (max-width: 390px) {
+	.container {
+		@apply py-8;
+		.form {
+			.controls {
+				@apply flex-col *:w-full;
+			}
+		}
+	}
+}

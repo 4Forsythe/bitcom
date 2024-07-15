@@ -1,0 +1,35 @@
+.container {
+	@apply gap-3 flex;
+	.sidebar {
+		@apply h-full flex flex-col;
+	}
+	.inner {
+		@apply gap-5 flex flex-col grow;
+		.search {
+			@apply h-[60px] hidden shadow-md;
+		}
+		.list {
+			@apply mb-5 gap-5 flex flex-col items-center;
+		}
+	}
+}
+
+@media (max-width: 1024px) {
+	.container {
+		.sidebar {
+			@apply hidden;
+		}
+		.inner {
+			@apply gap-2.5;
+		}
+	}
+}
+@media (max-width: 768px) {
+	.container {
+		.inner {
+			.search {
+				@apply flex;
+			}
+		}
+	}
+}

@@ -1,0 +1,62 @@
+.container {
+	@apply p-8 gap-8 grid grid-cols-2 bg-zinc-50 rounded-lg shadow-sm;
+	.cover {
+		@apply rounded-lg overflow-hidden;
+		.image {
+			@apply w-full h-auto object-cover;
+		}
+	}
+	.information {
+		@apply gap-2.5 flex flex-col;
+		.overview {
+			@apply mb-2 gap-2.5 inline-flex flex-col;
+			.title {
+				@apply mb-1.5 text-2xl font-extrabold;
+			}
+			.description {
+				@apply mb-1.5;
+			}
+		}
+		.options {
+			@apply gap-4 flex flex-col;
+			.availables {
+				@apply gap-2 flex items-center;
+				.breadcrumb {
+					@apply w-fit my-1 px-2 py-1.5 text-zinc-500 bg-zinc-100 rounded-lg;
+				}
+			}
+			.features {
+				@apply mb-3.5 gap-3 flex items-center justify-between;
+				.controls {
+					@apply gap-2 col-start-1 col-end-2 flex items-center;
+					.buy {
+						@apply px-6 py-3 border border-zinc-300 text-lg font-bold rounded-lg
+						hover:text-zinc-50 hover:bg-red-500 hover:border-red-500 transition-colors duration-200;
+					}
+					.wishlist {
+						@apply p-4 text-zinc-400 bg-zinc-100 border border-zinc-300 rounded-lg hover:text-zinc-700 hover:bg-zinc-200
+						transition-colors duration-200;
+						.icon {
+							@apply w-auto h-5;
+						}
+					}
+				}
+				.price {
+					@apply px-6 py-3 text-2xl font-bold self-start justify-self-end;
+				}
+			}
+		}
+		.details {
+			@apply p-4 flex flex-col;
+			.title {
+				@apply mb-3 font-bold;
+			}
+			.characteristics {
+				@apply pt-4 pb-2 gap-2 flex flex-col;
+				.characteristic {
+					@apply gap-4 grid grid-cols-2 items-center;
+				}
+			}
+		}
+	}
+}

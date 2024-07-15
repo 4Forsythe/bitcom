@@ -1,0 +1,30 @@
+.container {
+	@apply gap-5 flex flex-wrap justify-center;
+	.card {
+		@apply w-[300px] h-[234px] px-5 py-6 flex flex-col items-center justify-center text-center bg-zinc-50 rounded-xl shadow-md
+    hover:shadow-lg transition-all duration-200;
+		&:hover {
+			.title {
+				@apply text-red-500;
+			}
+		}
+		.cover {
+			@apply w-full mb-3 flex items-center justify-center overflow-hidden hover:*:scale-110;
+			.image {
+				@apply w-full h-auto object-cover transition-transform duration-300;
+			}
+		}
+		.title {
+			@apply font-bold transition-colors duration-200;
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		@apply gap-3.5;
+		.card {
+			@apply w-[234px];
+		}
+	}
+}

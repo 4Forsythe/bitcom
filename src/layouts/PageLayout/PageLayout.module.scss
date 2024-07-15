@@ -1,0 +1,14 @@
+.container {
+	@apply px-2.5;
+	.page {
+		@apply pb-10 flex flex-col;
+	}
+}
+
+@media (max-width: 564px) {
+	.container {
+		.page {
+			@apply pb-2.5;
+		}
+	}
+}

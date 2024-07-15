@@ -1,0 +1,6 @@
+.wrap {
+	@apply mb-10;
+	.card {
+		@apply h-[68px] m-0.5 px-4 flex items-center justify-center bg-zinc-50 border border-zinc-200 rounded-lg shadow-sm;
+	}
+}

@@ -1,0 +1,27 @@
+.container {
+	@apply my-5 px-3 inline-flex items-center;
+	.back {
+		@apply mr-3.5 p-1.5 border border-zinc-200 text-zinc-400 bg-zinc-50 rounded-lg hover:text-zinc-700 transition-colors duration-300;
+		.icon {
+			@apply w-auto h-8;
+		}
+	}
+	.title {
+		@apply text-4xl font-extrabold;
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		.title {
+			@apply text-3xl;
+		}
+	}
+}
+@media (max-width: 460px) {
+	.container {
+		.title {
+			@apply my-2.5 text-2xl;
+		}
+	}
+}

@@ -1,0 +1,86 @@
+'use client'
+
+import Link from 'next/link'
+
+import styles from './ServiceCenter.module.scss'
+
+type ServiceType = {
+	name: string
+	imageUrl: string
+}
+
+const services: ServiceType[] = [
+	{
+		name: 'Ремонт промышленной электроники',
+		imageUrl: '/'
+	},
+	{
+		name: 'Ремонт оргтехники',
+		imageUrl: '/'
+	},
+	{
+		name: 'Ремонт компьютеров',
+		imageUrl: '/'
+	},
+	{
+		name: 'Ремонт мониторов и ЖК-телевизоров',
+		imageUrl: '/'
+	}
+]
+
+export const ServiceCenter = () => {
+	return (
+		<div className={styles.container}>
+			<div className={styles.banner}>
+				<h1 className={styles.title}>Сервисный центр</h1>
+				<p className={styles.text}>
+					Мы занимаемся ремонтом техники и оборудования
+					<br />
+					Наши опытные мастера устраняют неисправности любого уровня сложности
+				</p>
+				<ul className={styles.menu}>
+					{services.map((item) => (
+						<li className={styles.item}>
+							<span className={styles.tile}>{item.name}</span>
+						</li>
+					))}
+				</ul>
+			</div>
+			<div className={styles.information}>
+				<p className={styles.text}>
+					Мы осуществляем ремонт, профилактику и обслуживание промышленной
+					электроники, производственного оборудования, автоматики, строительной
+					и офисной технки, компьютеров и ноутбуков любой сложности, а также
+					мониторов и телевизоров
+				</p>
+				<div className={styles.contact}>
+					<div className={styles.important}>
+						<span className={styles.phones}>
+							<Link
+								className={styles.phone}
+								href='tel:89277839022'
+							>
+								8-927-783-90-22
+							</Link>
+							или
+							<Link
+								className={styles.phone}
+								href='tel:88482411212'
+							>
+								8 (8482) 41-12-12
+							</Link>
+						</span>
+						<span className={styles.worktime}>с 9:30 до 18:00</span>
+					</div>
+					<Link
+						className={styles.address}
+						href='https://yandex.ru/maps/-/CDfZBXKB'
+						target='blank'
+					>
+						бул. Кулибина, 6А, офис №7, Автозаводский р-н, г. Тольятти
+					</Link>
+				</div>
+			</div>
+		</div>
+	)
+}

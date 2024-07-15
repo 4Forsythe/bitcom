@@ -1,0 +1,9 @@
+.container {
+	@apply inset-0 z-[1000] flex items-center justify-center fixed;
+	.dialog {
+		@apply z-[1000];
+	}
+	.overlay {
+		@apply inset-0 z-[900] bg-zinc-800/50 fixed;
+	}
+}

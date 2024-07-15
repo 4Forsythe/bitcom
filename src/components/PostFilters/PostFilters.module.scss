@@ -1,0 +1,43 @@
+.wrap {
+	@apply w-[230px] h-full;
+	.container {
+		@apply gap-0.5 flex flex-col shadow;
+		.dropdown {
+			@apply flex flex-col bg-zinc-50 border border-zinc-200 rounded-xl overflow-hidden;
+			.super {
+				@apply p-4 gap-1.5 font-bold flex items-center hover:bg-zinc-100 uppercase
+        transition-colors duration-200;
+				.icon {
+					@apply w-auto h-5 font-bold
+          transition-transform duration-200;
+				}
+			}
+			.group {
+				@apply flex flex-col;
+				.item {
+					@apply px-4 py-2 text-sm border-t border-zinc-300 hover:bg-zinc-200
+          transition-colors duration-200;
+					&.target {
+						@apply text-zinc-50 bg-red-500 hover:bg-red-600/90
+            transition-colors duration-200;
+					}
+				}
+				.more {
+					@apply w-full px-4 py-2 text-center text-sm text-zinc-600 bg-zinc-100 border-t border-zinc-300 hover:bg-zinc-300
+          transition-colors duration-200;
+				}
+			}
+			&.collapsed {
+				.super {
+					@apply font-medium;
+					.icon {
+						@apply font-medium rotate-180;
+					}
+				}
+				.group {
+					@apply hidden;
+				}
+			}
+		}
+	}
+}

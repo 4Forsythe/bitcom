@@ -1,0 +1,28 @@
+class ROUTES {
+	private BASE_URL = '/'
+
+	HOME = this.BASE_URL
+
+	SEARCH = `${this.BASE_URL}search`
+	CATALOG = `${this.BASE_URL}catalog`
+	DEVICES = `${this.BASE_URL}devices`
+
+	CART = `${this.BASE_URL}cart`
+
+	PROFILE = `${this.BASE_URL}my`
+	ORDERLIST = `${this.BASE_URL}my/order-list`
+	WISHLIST = `${this.BASE_URL}my/wish-list`
+	ARTICLES = `${this.BASE_URL}my/articles`
+
+	BLOG = `${this.BASE_URL}blog`
+	EDITOR = `${this.BASE_URL}write`
+
+	SERVICE = `${this.BASE_URL}service-center`
+	ASSEMBLY = `${this.BASE_URL}build-pc`
+	BUYING = `${this.BASE_URL}buy-electronic`
+	UPGRADING = `${this.BASE_URL}upgrade`
+	ABOUT = `${this.BASE_URL}about-us`
+	POLICY = `${this.BASE_URL}policies`
+}
+
+export const ROUTE = new ROUTES()
