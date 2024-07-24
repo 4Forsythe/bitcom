@@ -12,9 +12,11 @@ class UserService {
 			const response = await api.get<UserType>(`${this.endpoint}/me`, {
 				headers
 			})
+
 			return response.data
 		} else {
 			const response = await apiWithHeaders.get<UserType>(`${this.endpoint}/me`)
+
 			return response.data
 		}
 	}
@@ -24,6 +26,7 @@ class UserService {
 			`${this.endpoint}/me`,
 			data
 		)
+
 		return response.data
 	}
 }

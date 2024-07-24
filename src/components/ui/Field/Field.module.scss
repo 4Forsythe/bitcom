@@ -30,9 +30,9 @@
 		}
 	}
 	.message {
-		@apply w-fit px-1.5 gap-0.5 inline-flex items-center text-xs text-red-600;
+		@apply w-fit px-1.5 gap-1 inline-flex items-center text-sm text-red-600;
 		.icon {
-			@apply w-auto h-3;
+			@apply w-auto h-3.5;
 		}
 	}
 }

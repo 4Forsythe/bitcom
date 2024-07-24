@@ -1,5 +1,5 @@
 .container {
-	@apply inset-0 z-[1000] flex items-center justify-center fixed;
+	@apply inset-0 z-[1000] flex items-center justify-center fixed *:z-50;
 	.dialog {
 		@apply z-[1000];
 	}

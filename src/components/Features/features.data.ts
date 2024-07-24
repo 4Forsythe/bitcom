@@ -34,7 +34,7 @@ export const FEATURES: FeaturesType[] = [
 	},
 	{
 		href: ROUTE.UPGRADING,
-		title: 'Обновление ПК-парка',
+		title: 'Обновление парка ПК',
 		description: 'Полное или частичное обновление парка оргтехники'
 	}
 ]

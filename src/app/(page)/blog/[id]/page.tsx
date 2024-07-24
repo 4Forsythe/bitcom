@@ -1,6 +1,8 @@
-import { Post } from '@/components/Post'
-import { postService } from '@/services/post.service'
 import type { Metadata } from 'next'
+
+import { Post } from '@/app/(page)/blog/[id]/Post'
+
+import { postService } from '@/services/post.service'
 
 export const metadata: Metadata = {
 	title: 'Post'

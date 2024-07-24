@@ -6,7 +6,7 @@ import { getSearchParams } from '@/utils/get-search-params'
 import { productService } from '@/services/product.service'
 import { calcNounDeclension } from '@/utils/calc-noun-declension'
 
-export const revalidate = 360
+export const revalidate = 60
 
 interface SearchPageProps {
 	searchParams: { [key: string]: string | undefined }

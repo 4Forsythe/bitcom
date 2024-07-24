@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import { CartItemFormType } from '@/types/cart.types'
 import { cartService } from '@/services/cart.service'
+import type { CartItemFormType } from '@/types/cart.types'
 
 export const useUpdateCart = () => {
 	const queryClient = useQueryClient()

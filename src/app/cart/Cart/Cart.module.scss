@@ -7,22 +7,24 @@
 		}
 	}
 	.side {
-		@apply w-[350px] h-fit top-[144px] mb-7 px-4 pt-4 pb-5 gap-5 flex flex-col bg-zinc-50 rounded-lg shadow-sm sticky;
-		.summary {
-			@apply flex items-end justify-between;
-			.amount {
-				@apply inline-flex flex-col;
-				.total {
-					@apply mb-1.5 text-lg font-bold text-zinc-400;
+		@apply w-[350px] h-fit top-[144px] sticky;
+		.block {
+			@apply mb-7 px-4 pt-4 pb-5 gap-5 flex flex-col bg-zinc-50 rounded-lg shadow-sm;
+			.summary {
+				@apply flex items-end justify-between;
+				.amount {
+					@apply inline-flex flex-col;
+					.total {
+						@apply mb-1.5 text-lg font-bold text-zinc-400;
+					}
+				}
+				.text {
+					@apply text-lg font-bold;
 				}
 			}
-			.text {
-				@apply text-lg font-bold;
+			.action {
+				@apply w-full h-[64px] p-3.5;
 			}
-		}
-		.action {
-			@apply w-full h-[64px] p-3.5 flex items-center justify-center font-semibold text-zinc-50 bg-red-500 rounded-lg shadow-sm hover:bg-red-600/90
-      transition-colors duration-300;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 import { Heading } from '@/components/ui/Heading'
-import { DeviceList } from '@/components/DeviceList'
+import { DeviceList } from '@/app/(section)/devices/DeviceList'
 
 import { deviceService } from '@/services/device.service'
 
@@ -14,8 +14,11 @@ export default async function DevicesPage() {
 
 	return (
 		<>
-			<Heading title='Все устройства' />
-			<DeviceList devices={data} />
+			<Heading
+				title='Все устройства'
+				control
+			/>
+			<DeviceList items={data} />
 		</>
 	)
 }

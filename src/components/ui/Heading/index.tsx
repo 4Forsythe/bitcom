@@ -8,17 +8,17 @@ import styles from './Heading.module.scss'
 
 interface HeadingProps {
 	title: string
-	back?: boolean
+	control?: boolean
 }
 
-export const Heading = ({ title, back }: HeadingProps) => {
+export const Heading = ({ title, control }: HeadingProps) => {
 	const router = useRouter()
 
 	return (
 		<div className={styles.container}>
-			{back && (
+			{control && (
 				<button
-					className={styles.back}
+					className={styles.control}
 					onClick={() => router.back()}
 				>
 					<ChevronLeft className={styles.icon} />

@@ -4,11 +4,11 @@ import React from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 
+import { useUserStore } from '@/store/user.store'
 import { cartService } from '@/services/cart.service'
-import { useCartStore } from '@/store/cart.store'
 
 export function useCart() {
-	const { setCart } = useCartStore()
+	const { setCart } = useUserStore()
 
 	const { data, isLoading, isSuccess, isError } = useQuery({
 		queryKey: ['cart'],

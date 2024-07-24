@@ -1,36 +1,50 @@
 'use client'
 
+import React from 'react'
+
 import Link from 'next/link'
 import Image from 'next/image'
 
-import clsx from 'clsx'
-import { CircleUser, MapPin, Search } from 'lucide-react'
-
-import { SearchBar } from '@/components/SearchBar'
-
-import { useModal } from '@/hooks/useModal'
-import { useProfile } from '@/hooks/useProfile'
+import { CircleUser, Heart, MapPin, Search, ShoppingCart } from 'lucide-react'
 
 import { Modal } from '@/components/ui/Modal'
 import { AuthForm } from '@/components/AuthForm'
+import { SearchBar } from '@/components/SearchBar'
+import { MenuButton } from '@/components/ui/MenuButton'
+import { Skeleton } from '@/components/ui/MenuButton/Skeleton'
+
+import { useModal } from '@/hooks/useModal'
+import { useProfile } from '@/hooks/useProfile'
+import { useUserStore } from '@/store/user.store'
+
+import { ROUTE } from '@/config/routes.config'
 
 import styles from './Header.module.scss'
-import { ROUTE } from '@/config/routes.config'
-import { MenuButton } from '@/components/MenuButton'
-import { MENU } from './menu.data'
-import { Skeleton } from '@/components/MenuButton/Skeleton'
+import { ADDRESS, PHONE } from '@/constants/contacts.constants'
 
 export const Header = () => {
-	const { isOpen, onOpen } = useModal()
-	const { data: profile, isLoading } = useProfile()
+	const { onOpen } = useModal()
+
+	const { data: profile, isLoading: isProfileLoading } = useProfile()
+
+	const { cartCount, wishListCount, getCartCount, getWishListCount } =
+		useUserStore()
+
+	console.log('header', cartCount, wishListCount)
+
+	React.useEffect(() => {
+		getCartCount()
+		getWishListCount()
+	}, [])
+
+	const isLoading = isProfileLoading
 
 	const authDialog = () => {
-		if (!!!profile) onOpen()
+		if (!!!profile) onOpen(<AuthForm />)
 	}
 
 	return (
 		<>
-			{isOpen && <Modal content={<AuthForm />} />}
 			<div className={styles.roof}>
 				<div className={styles.information}>
 					<Link
@@ -39,13 +53,13 @@ export const Header = () => {
 						target='blank'
 					>
 						<MapPin className={styles.icon} />
-						бул. Кулибина, 6А, офис №7, г. Тольятти
+						{ADDRESS}
 					</Link>
 					<Link
 						className={styles.link}
 						href='tel:88482411212'
 					>
-						8-8482-41-1212
+						{PHONE}
 					</Link>
 				</div>
 			</div>
@@ -86,13 +100,24 @@ export const Header = () => {
 											}}
 										/>
 									</div>
-									{MENU.map((item) => (
-										<MenuButton
-											key={item.href}
-											tab={item}
-											onClick={authDialog}
-										/>
-									))}
+									<MenuButton
+										tab={{
+											title: 'Корзина',
+											icon: ShoppingCart,
+											href: profile && ROUTE.CART,
+											badge: cartCount ? +cartCount : undefined
+										}}
+										onClick={authDialog}
+									/>
+									<MenuButton
+										tab={{
+											title: 'Желаемое',
+											icon: Heart,
+											href: profile && ROUTE.WISHLIST,
+											badge: wishListCount ? +wishListCount : undefined
+										}}
+										onClick={authDialog}
+									/>
 									<MenuButton
 										tab={{
 											title: profile ? 'Кабинет' : 'Войти',

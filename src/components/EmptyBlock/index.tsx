@@ -1,11 +1,12 @@
 import Link from 'next/link'
 
+import { Frown } from 'lucide-react'
+
 import { Button } from '@/components/ui/Button'
 
 import { ROUTE } from '@/config/routes.config'
 
 import styles from './EmptyBlock.module.scss'
-import { Database, Package } from 'lucide-react'
 
 interface EmptyBlockProps {
 	title: string
@@ -16,7 +17,7 @@ export const EmptyBlock = ({ title, description }: EmptyBlockProps) => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.block}>
-				<Database className={styles.icon} />
+				<Frown className={styles.icon} />
 				<span className={styles.title}>{title}</span>
 				<p className={styles.description}>{description}</p>
 				<div className={styles.controls}>

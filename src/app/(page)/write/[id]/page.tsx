@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 
 import { Heading } from '@/components/ui/Heading'
-import { WriteForm } from '@/components/WriteForm'
+import { WriteForm } from '@/app/(page)/write/WriteForm'
 import { userService } from '@/services/user.service'
 import { redirect } from 'next/navigation'
 import { postService } from '@/services/post.service'
@@ -34,7 +34,7 @@ export default async function WritePage({
 		<>
 			<Heading
 				title='Редактировать статью'
-				back
+				control
 			/>
 			<WriteForm post={post} />
 		</>

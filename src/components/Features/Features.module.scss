@@ -1,9 +1,9 @@
 .container {
 	@apply mb-8;
 	.items {
-		@apply px-4 gap-4 flex flex-wrap items-center justify-center;
+		@apply gap-4 flex flex-wrap items-center justify-center;
 		.item {
-			@apply w-[180px] h-[220px] bg-zinc-50 rounded-xl shadow-sm hover:bg-zinc-100 hover:shadow-md
+			@apply w-[190px] h-[220px] bg-zinc-50 rounded-xl shadow-sm hover:bg-zinc-100 hover:shadow-md
 			transition-all duration-200;
 			.link {
 				@apply w-full h-full px-5 py-6 gap-2 flex flex-col outline-none;

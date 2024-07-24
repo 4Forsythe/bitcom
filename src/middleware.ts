@@ -10,6 +10,12 @@ export async function middleware(request: NextRequest) {
 	const accessToken = cookies.get(TokenEnum.ACCESS_TOKEN)?.value
 	const refreshToken = cookies.get(TokenEnum.REFRESH_TOKEN)?.value
 
+	const isApiRoute = url.includes('/api')
+
+	if (isApiRoute) {
+		return NextResponse.next()
+	}
+
 	const isProtectedRoute = ['/my', '/cart'].some((path) => url.includes(path))
 	const isPrivateRoute = ['/write', '/my/articles'].some((path) =>
 		url.includes(path)

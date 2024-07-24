@@ -23,17 +23,17 @@ class AuthService {
 		return response
 	}
 
+	async verify(data: { phone: string }) {
+		const response = await api.post<boolean>(`${this.endpoint}/send-code`, data)
+
+		return response
+	}
+
 	async getTokens() {
 		const response = await api.post<AuthType>(`${this.endpoint}/login/extend`)
 		const token = response.data.accessToken
 
 		if (token) setAccessToken(token)
-
-		return response
-	}
-
-	async verify(data: { phone: string }) {
-		const response = await api.post<boolean>(`${this.endpoint}/send-code`, data)
 
 		return response
 	}

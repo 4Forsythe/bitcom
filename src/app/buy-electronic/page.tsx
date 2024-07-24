@@ -26,7 +26,7 @@ export default function BuyElectronicPage() {
 					href='/assets/electronic-pricelist.pdf'
 					target='blank'
 				>
-					Ознакомиться с прайс-листом
+					Скачать прайс-лист
 				</Link>
 			</Section>
 		</>

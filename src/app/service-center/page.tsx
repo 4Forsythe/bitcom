@@ -1,4 +1,4 @@
-import { ServiceCenter } from '@/components/ServiceCenter'
+import { ServiceCenter } from '@/app/service-center/ServiceCenter'
 
 export default function ServiceCenterPage() {
 	return <ServiceCenter />

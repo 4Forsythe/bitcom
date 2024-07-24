@@ -14,4 +14,5 @@ export type CartItemFormType = {
 export type CartType = {
 	items: CartItemType[]
 	count: number
+	total: number
 }

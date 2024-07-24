@@ -1,17 +1,18 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import clsx from 'clsx'
 import { Search, X } from 'lucide-react'
 
-import { ROUTE } from '@/config/routes.config'
-
 import styles from './SearchBar.module.scss'
+import { ROUTE } from '@/config/routes.config'
 
 export const SearchBar = () => {
 	const router = useRouter()
+	const searchParams = useSearchParams()
+
 	const [value, setValue] = React.useState('')
 
 	const [isHovered, setIsHovered] = React.useState(false)
@@ -27,7 +28,9 @@ export const SearchBar = () => {
 	}
 
 	const onSearch = () => {
-		router.push(`${ROUTE.SEARCH}?q=${value}`)
+		const params = new URLSearchParams(searchParams.toString())
+		params.set('q', value)
+		router.push(`${ROUTE.SEARCH}?${params.toString()}`)
 		inputRef.current?.blur()
 	}
 

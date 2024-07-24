@@ -11,11 +11,21 @@ class CartService {
 
 	async create(data: CartItemFormType): Promise<CartType> {
 		const response = await apiWithHeaders.post<CartType>(this.endpoint, data)
+
 		return response.data
 	}
 
 	async getAll(): Promise<CartType> {
-		const response = await apiWithHeaders.get(this.endpoint)
+		const response = await apiWithHeaders.get(`${this.endpoint}/me`)
+
+		return response.data
+	}
+
+	async getCount(): Promise<number> {
+		const response = await apiWithHeaders.get<number>(
+			`${this.endpoint}/me/count`
+		)
+
 		return response.data
 	}
 
@@ -24,6 +34,7 @@ class CartService {
 			`${this.endpoint}/${id}`,
 			data
 		)
+
 		return response.data
 	}
 
@@ -31,11 +42,13 @@ class CartService {
 		const response = await apiWithHeaders.delete<CartType>(
 			`${this.endpoint}/${id}`
 		)
+
 		return response.data
 	}
 
 	async reset(): Promise<CartType> {
 		const response = await apiWithHeaders.delete<CartType>(this.endpoint)
+
 		return response.data
 	}
 }

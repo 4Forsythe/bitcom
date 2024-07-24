@@ -20,11 +20,11 @@ import { errorCatch } from '@/api/error-catch'
 
 import styles from './Articles.module.scss'
 import { useUserStore } from '@/store/user.store'
-import { PostCard } from '@/components/PostCard'
+import { PostCard } from '@/app/(page)/blog/[id]/Post/PostCard'
 import { useArticles } from '@/hooks/useArticles'
 import { ArticleCard } from '@/components/ArticleCard'
 import { Skeleton } from '@/components/ArticleCard/Skeleton'
-import { Pagination } from '@/components/Pagination'
+import { Pagination } from '@/components/ui/Pagination'
 import { EmptyBlock } from '@/components/EmptyBlock'
 
 export const Articles = () => {

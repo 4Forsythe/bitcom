@@ -1,6 +1,6 @@
-.wrap {
+.container {
 	@apply w-[230px] h-full;
-	.container {
+	.inner {
 		@apply gap-0.5 flex flex-col;
 		.dropdown {
 			@apply flex flex-col bg-zinc-50 border border-zinc-200 rounded-xl shadow-sm overflow-hidden;

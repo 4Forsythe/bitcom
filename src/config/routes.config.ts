@@ -8,6 +8,7 @@ class ROUTES {
 	DEVICES = `${this.BASE_URL}devices`
 
 	CART = `${this.BASE_URL}cart`
+	PRODUCT = `${this.BASE_URL}product`
 
 	PROFILE = `${this.BASE_URL}my`
 	ORDERLIST = `${this.BASE_URL}my/order-list`

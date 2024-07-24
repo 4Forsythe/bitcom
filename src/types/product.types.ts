@@ -1,16 +1,28 @@
-import { CategoryType } from './category.types'
-import { DeviceType } from './device.types'
+export type ProductCharacteristicType = {
+	id: string
+	name: string
+}
+
+export type ProductCharacteristicsType = {
+	items: ProductCharacteristicType[]
+	count: number
+}
+
+export type ProductCharacteristicParamsType = {
+	take?: number
+	skip?: number
+}
 
 export type ProductType = {
 	id: string
 	name: string
 	price: number
 	count: number
-	barcodes: string
-	category?: CategoryType
-	device?: DeviceType
-	brand?: string
-	model?: string
+	barcode: string
+	category?: ProductCharacteristicType
+	device?: ProductCharacteristicType
+	brand?: ProductCharacteristicType
+	model?: ProductCharacteristicType
 }
 
 export type ProductsType = {
@@ -18,7 +30,7 @@ export type ProductsType = {
 	count: number
 }
 
-export type ProductParams = {
+export type ProductParamsType = {
 	id?: string
 	name?: string
 	categoryId?: string

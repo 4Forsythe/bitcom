@@ -1,5 +1,7 @@
 import { ROUTE } from '@/config/routes.config'
 
+import { PHONE, EMAIL, ADDRESS } from '@/constants/contacts.constants'
+
 type FooterMenuType = {
 	href: string
 	label: string
@@ -37,16 +39,15 @@ export const SERVICES: FooterMenuType[] = [
 
 export const CONTACTS: FooterMenuType[] = [
 	{
-		href: 'tel:88482411212',
-		label: '8-8482-41-1212 (с 9:30 до 18:00)'
+		href: `tel:${PHONE}`,
+		label: `${PHONE} (с 9:30 до 18:00)`
 	},
 	{
-		href: 'mailto:info@bitcom63.ru',
-		label: 'info@bitcom63.ru'
+		href: `mailto:${EMAIL}`,
+		label: EMAIL
 	},
 	{
 		href: 'https://yandex.ru/maps/-/CDbr724l',
-		label:
-			'бул. Кулибина, 6А, офис №7 (вход со стороны магазина «БИТКОМ»), г. Тольятти, Самарская обл., 445047'
+		label: `${ADDRESS} Самарская обл., 445047 (вход со стороны магазина «БИТ-КОМ»)`
 	}
 ]

@@ -1,26 +1,25 @@
 'use client'
 
-import { SearchBar } from '../SearchBar'
-import { Filters } from '@/components/Filters'
 import { Sort } from '@/components/Sort'
-import { ProductCard } from '@/components/ProductCard'
-import { Pagination } from '@/components/Pagination'
+import { Filters } from '@/components/Filters'
+import { SearchBar } from '@/components/SearchBar'
+import { ProductCard } from '@/app/(section)/product/[id]/Product/ProductCard'
 import { EmptyBlock } from '@/components/EmptyBlock'
+import { Pagination } from '@/components/ui/Pagination'
 
 import { ProductsType } from '@/types/product.types'
+import { useWindowSize } from '@/hooks/useWindowSize'
 
 import styles from './ProductList.module.scss'
 
-interface ProductListProps {
-	products: ProductsType
-}
+export const ProductList = ({ products }: { products: ProductsType }) => {
+	const { width } = useWindowSize()
 
-export const ProductList = ({ products }: ProductListProps) => {
+	const isTablet = width && width <= 1024
+
 	return (
 		<div className={styles.container}>
-			<aside className={styles.sidebar}>
-				<Filters />
-			</aside>
+			<aside className={styles.sidebar}>{!isTablet && <Filters />}</aside>
 			<div className={styles.inner}>
 				<div className={styles.search}>
 					<SearchBar />

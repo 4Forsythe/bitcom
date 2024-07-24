@@ -27,7 +27,7 @@
 				@apply h-full flex items-center justify-center grow;
 			}
 			.controls {
-				@apply flex items-center;
+				@apply gap-1.5 flex items-center;
 				.search {
 					@apply hidden;
 				}

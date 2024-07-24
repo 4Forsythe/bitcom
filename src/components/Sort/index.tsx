@@ -6,12 +6,17 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import clsx from 'clsx'
 import { ChevronDown, SlidersHorizontal } from 'lucide-react'
 
+import { useModal } from '@/hooks/useModal'
 import { getSearchParams } from '@/utils/get-search-params'
 
-import type { SortType } from './sorts.data'
 import { PRODUCT_SORTS, POST_SORTS } from './sorts.data'
+import type { SortType } from './sorts.data'
 
 import styles from './Sort.module.scss'
+import { Modal } from '../ui/Modal'
+import { Filters } from '../Filters'
+import { useWindowSize } from '@/hooks/useWindowSize'
+import { PopupLayout } from '@/layouts/PopupLayout'
 
 interface SortProps {
 	isProducts?: boolean
@@ -21,6 +26,11 @@ interface SortProps {
 export const Sort = ({ isProducts, isPosts }: SortProps) => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
+
+	const { width } = useWindowSize()
+	const { isOpen, onOpen } = useModal()
+
+	const isTablet = width && width <= 1024
 
 	const { sortBy, orderBy } = getSearchParams()
 
@@ -63,7 +73,7 @@ export const Sort = ({ isProducts, isPosts }: SortProps) => {
 		setSort(sort)
 		const params = new URLSearchParams(searchParams.toString())
 		params.set('sortBy', sort.property)
-		params.set('order', sort.order)
+		params.set('orderBy', sort.order)
 		router.push(`?${params.toString()}`)
 		setIsDrop(false)
 	}
@@ -108,7 +118,16 @@ export const Sort = ({ isProducts, isPosts }: SortProps) => {
 					</div>
 				)}
 			</ul>
-			<button className={styles.filters}>
+			<button
+				className={styles.filters}
+				onClick={() =>
+					onOpen(
+						<PopupLayout>
+							<Filters />
+						</PopupLayout>
+					)
+				}
+			>
 				<SlidersHorizontal className={styles.icon} />
 				Фильтры
 			</button>

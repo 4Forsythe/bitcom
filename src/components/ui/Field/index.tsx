@@ -23,7 +23,7 @@ export const Field = React.forwardRef<HTMLInputElement, IField>(
 		{
 			id,
 			label,
-			extra,
+			className,
 			variant = 'contained',
 			error,
 			type = 'text',
@@ -65,7 +65,7 @@ export const Field = React.forwardRef<HTMLInputElement, IField>(
 					</label>
 					<input
 						id={id}
-						className={clsx(styles.input, extra)}
+						className={clsx(styles.input, className)}
 						ref={ref}
 						type={type !== 'number' ? type : 'text'}
 						disabled={isLoading}
