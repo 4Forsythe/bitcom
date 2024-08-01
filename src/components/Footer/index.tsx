@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { INFOS, SERVICES, CONTACTS } from './menu.data'
 
 import styles from './Footer.module.scss'
+import Image from 'next/image'
+import clsx from 'clsx'
 
 export const Footer = () => {
 	return (
@@ -23,6 +25,36 @@ export const Footer = () => {
 									</Link>
 								</li>
 							))}
+							<li className={styles.marketplaces}>
+								<Link
+									className={styles.avito}
+									href='https://www.avito.ru/brands/bitcom63'
+									target='_blank'
+								>
+									<Image
+										className={styles.image}
+										width={100}
+										height={100}
+										src='/icons/Avito.svg'
+										alt='Avito'
+										priority
+									/>
+								</Link>
+								<Link
+									className={styles.market}
+									href='https://market.yandex.ru/business--resurstekhno-elektronika/1148896'
+									target='_blank'
+								>
+									<Image
+										className={styles.image}
+										width={100}
+										height={100}
+										src='/icons/Market.svg'
+										alt='Yandex.Market'
+										priority
+									/>
+								</Link>
+							</li>
 						</ul>
 					</div>
 					<div className={styles.menu}>

@@ -5,16 +5,17 @@
 		& > *:not(:last-child) {
 			@apply w-full border-b border-neutral-200;
 		}
-		.item {
-			@apply w-full mb-1.5;
-			.tab {
-				@apply w-full pl-5 p-3 gap-4 flex items-center font-medium border-l-2 border-transparent rounded hover:text-red-400;
-				&.target {
-					@apply font-bold border-red-500 bg-red-300/10;
-				}
-				.icon {
-					@apply w-auto h-5;
-				}
+	}
+	.item {
+		@apply w-full mb-1.5;
+		.tab {
+			@apply w-full pl-5 p-3 gap-4 flex items-center font-medium border-l-2 border-transparent rounded hover:text-red-400 transition-colors duration-200
+			disabled:opacity-80 disabled:pointer-events-none disabled:animate-pulse;
+			&.target {
+				@apply font-bold border-red-500 bg-red-300/10;
+			}
+			.icon {
+				@apply w-auto h-5;
 			}
 		}
 	}
@@ -28,5 +29,16 @@
 @media (max-width: 1024px) {
 	.container {
 		@apply w-full;
+	}
+}
+@media (max-width: 564px) {
+	.container {
+		.menu {
+			.item {
+				.tab {
+					@apply text-sm;
+				}
+			}
+		}
 	}
 }

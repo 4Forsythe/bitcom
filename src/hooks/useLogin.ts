@@ -6,7 +6,7 @@ import type { AuthFormType } from '@/types/auth.types'
 import { authService } from '@/services/auth.service'
 import { useUserStore } from '@/store/user.store'
 
-export function useLogin(onClose: () => void) {
+export function useLogin() {
 	const queryClient = useQueryClient()
 
 	const { setUser } = useUserStore()
@@ -16,7 +16,6 @@ export function useLogin(onClose: () => void) {
 		mutationFn: (data: AuthFormType) => authService.login(data),
 		retry: 0,
 		onSuccess: (response) => {
-			onClose()
 			queryClient.invalidateQueries({ queryKey: ['profile'] })
 			setUser(response.data.user)
 		}

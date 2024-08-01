@@ -13,7 +13,7 @@ export const Company = () => {
 					className={styles.image}
 					width={220}
 					height={220}
-					src='/images/about.png'
+					src='/static/LOGO.png'
 					alt='Logo'
 					priority
 				/>

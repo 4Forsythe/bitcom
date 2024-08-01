@@ -29,7 +29,7 @@ export const Catalog = ({
 							className={styles.image}
 							width={170}
 							height={120}
-							src='/images/image-placeholder.png'
+							src='/static/image-placeholder.png'
 							alt={category.name}
 							priority
 						/>

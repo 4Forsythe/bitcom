@@ -3,9 +3,14 @@
 import React from 'react'
 import Link from 'next/link'
 
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { ArrowLeft, X } from 'lucide-react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import {
+	Controller,
+	SubmitHandler,
+	useForm,
+	useFormContext
+} from 'react-hook-form'
 
 import { useModal } from '@/hooks/useModal'
 
@@ -24,33 +29,58 @@ import { errorCatch } from '@/api/error-catch'
 import { CooldownTimer } from '../ui/CooldownTimer'
 import { useUserStore } from '@/store/user.store'
 import { userService } from '@/services/user.service'
+import { useUpdateProfile } from '@/hooks/useUpdateProfile'
+import { phoneSchema } from '@/validation/phone.schema'
 
-enum AuthStageEnum {
+enum AuthStage {
 	PHONE = 'Phone',
-	PASSWORD = 'Password',
-	SMS_CODE = 'SMS Code'
+	SMS_CODE = 'SMS Code',
+	PASSWORD = 'Password'
+}
+
+enum AuthMethod {
+	LOGIN = 'Login',
+	REGISTER = 'Register'
 }
 
 export const AuthForm = () => {
 	const [cooldown, setCooldown] = React.useState(0)
-	const [stage, setStage] = React.useState<AuthStageEnum>(AuthStageEnum.PHONE)
+	const [stage, setStage] = React.useState<AuthStage>(AuthStage.PHONE)
+	const [method, setMethod] = React.useState<AuthMethod | null>(null)
+
+	const queryClient = useQueryClient()
 
 	const { onClose } = useModal()
+	const { setUser } = useUserStore()
 
 	const {
 		register,
-		handleSubmit,
+		watch,
 		reset,
+		handleSubmit,
 		getValues,
 		control,
 		formState: { isValid, errors }
-	} = useForm<AuthFormType>()
+	} = useForm<AuthFormType>({ mode: 'onSubmit' })
 
-	const { mutate: mutateRegister, isPending: isRegisterPending } = useMutation({
+	const {
+		mutate: mutateRegister,
+		isPending: isRegisterPending,
+		error: registerError
+	} = useMutation({
 		mutationKey: ['register'],
 		mutationFn: (data: AuthFormType) => authService.register(data),
 		onSuccess: () => {
-			setStage(AuthStageEnum.SMS_CODE)
+			setMethod(AuthMethod.REGISTER)
+			setStage(AuthStage.SMS_CODE)
+		},
+		onError: (error) => {
+			const message = errorCatch(error) === 'Неверный формат номера телефона'
+
+			if (!message) {
+				setMethod(AuthMethod.LOGIN)
+				setStage(AuthStage.PASSWORD)
+			}
 		}
 	})
 
@@ -60,9 +90,8 @@ export const AuthForm = () => {
 			authService.verify({
 				phone
 			}),
-		onError: (error: any) => {
+		onError: (error) => {
 			const message = errorCatch(error)
-
 			if (message) {
 				const match = message.match(/Повторите попытку через (\d+) сек./)
 				if (match) {
@@ -71,7 +100,7 @@ export const AuthForm = () => {
 			}
 		},
 		onSuccess: () => {
-			setStage(AuthStageEnum.SMS_CODE)
+			setStage(AuthStage.SMS_CODE)
 		}
 	})
 
@@ -79,27 +108,52 @@ export const AuthForm = () => {
 		mutate: mutateLogin,
 		isPending: isLoginPending,
 		error: loginError
-	} = useLogin(onClose)
+	} = useMutation({
+		mutationKey: ['login'],
+		mutationFn: (data: AuthFormType) => authService.login(data),
+		retry: 0,
+		onSuccess: (response) => {
+			queryClient.invalidateQueries({ queryKey: ['profile'] })
+			setUser(response.data.user)
+			if (method === AuthMethod.LOGIN) {
+				onClose()
+			} else {
+				setMethod(AuthMethod.REGISTER)
+				setStage(AuthStage.PASSWORD)
+			}
+		}
+	})
+
+	const { mutate: mutateProfile } = useUpdateProfile()
 
 	const isPending = isRegisterPending || isSendingPending || isLoginPending
 	const loginErrorMessage = loginError ? errorCatch(loginError) : undefined
+	const registerErrorMessage = registerError
+		? errorCatch(registerError)
+		: undefined
 
-	const onSubmit: SubmitHandler<AuthFormType> = async (data: AuthFormType) => {
+	console.log(registerErrorMessage)
+
+	const onSubmit: SubmitHandler<AuthFormType> = (data: AuthFormType) => {
 		const phone = data.phone.replace(/[^\d]/g, '')
 		const dto = { ...data, phone }
 
-		if (stage === AuthStageEnum.PHONE) {
+		if (stage === AuthStage.PHONE) {
 			mutateRegister({
-				name: dto.name || undefined,
 				phone: dto.phone
 			})
-
-			mutateSending(dto.phone)
-		} else if (stage === AuthStageEnum.SMS_CODE) {
+		} else if (stage === AuthStage.SMS_CODE) {
 			mutateLogin({
 				phone: dto.phone,
 				code: Number(dto.code)
 			})
+		} else if (stage === AuthStage.PASSWORD) {
+			if (method === AuthMethod.LOGIN) {
+				mutateLogin({ phone: dto.phone, password: dto.password })
+			} else {
+				mutateProfile({ password: dto.password })
+				onClose()
+			}
 		}
 	}
 
@@ -112,7 +166,15 @@ export const AuthForm = () => {
 	}
 
 	const onBack = () => {
-		setStage(AuthStageEnum.PHONE)
+		if (stage === AuthStage.PASSWORD) {
+			setStage(AuthStage.PHONE)
+		} else if (stage === AuthStage.SMS_CODE) {
+			if (method === AuthMethod.LOGIN) {
+				setStage(AuthStage.PASSWORD)
+			} else {
+				setStage(AuthStage.PHONE)
+			}
+		}
 	}
 
 	return (
@@ -122,21 +184,27 @@ export const AuthForm = () => {
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<div className={styles.head}>
-					{stage === AuthStageEnum.PHONE && (
+					{stage === AuthStage.PHONE && (
 						<>
 							<span className={styles.title}>Войти или</span>
 							<span className={styles.title}>зарегистрироваться</span>
 						</>
 					)}
-					{stage === AuthStageEnum.SMS_CODE && (
+					{stage === AuthStage.SMS_CODE && (
 						<>
 							<span className={styles.title}>Введите код</span>
 							<span className={styles.title}>подтверждения</span>
 						</>
 					)}
+					{stage === AuthStage.PASSWORD && method === AuthMethod.LOGIN && (
+						<span className={styles.title}>Введите пароль</span>
+					)}
+					{stage === AuthStage.PASSWORD && method === AuthMethod.REGISTER && (
+						<span className={styles.title}>Придумайте пароль</span>
+					)}
 				</div>
 				<div className={styles.field}>
-					{stage === AuthStageEnum.PHONE && (
+					{stage === AuthStage.PHONE && (
 						<Controller
 							name='phone'
 							control={control}
@@ -157,7 +225,10 @@ export const AuthForm = () => {
 									{...field}
 									id='phone'
 									className={styles.input}
-									error={errors?.phone?.message}
+									error={
+										errors?.phone?.message ||
+										(registerErrorMessage ?? registerErrorMessage)
+									}
 									onChange={(e) => field.onChange(formatPhone(e.target.value))}
 									type='text'
 									autoComplete='off'
@@ -166,7 +237,7 @@ export const AuthForm = () => {
 							)}
 						/>
 					)}
-					{stage === AuthStageEnum.SMS_CODE && (
+					{stage === AuthStage.SMS_CODE && (
 						<Field
 							id='code'
 							className={styles.input}
@@ -174,9 +245,12 @@ export const AuthForm = () => {
 							maxLength={6}
 							autoComplete='off'
 							placeholder='Введите код из СМС'
-							error={loginErrorMessage}
+							error={
+								errors?.code?.message ||
+								(loginErrorMessage ?? loginErrorMessage)
+							}
 							{...register('code', {
-								required: 'Это обязательное поле',
+								required: false,
 								minLength: {
 									value: 6,
 									message: 'Длина кода - 6 символов'
@@ -188,23 +262,47 @@ export const AuthForm = () => {
 							})}
 						/>
 					)}
-				</div>
-				{cooldown > 0 && (
-					<CooldownTimer
-						seconds={cooldown}
-						onEnd={() => setCooldown(0)}
-					/>
-				)}
-				<div className={styles.buttons}>
-					{!cooldown && (
-						<Button
-							type='submit'
-							disabled={!isValid || isPending}
-						>
-							{stage === AuthStageEnum.PHONE ? 'Войти' : 'Подтвердить код'}
-						</Button>
+					{stage === AuthStage.PASSWORD && (
+						<Field
+							id='password'
+							className={styles.input}
+							type='text'
+							maxLength={32}
+							autoComplete='off'
+							placeholder={
+								method === AuthMethod.REGISTER
+									? 'Придумайте пароль'
+									: 'Введите пароль'
+							}
+							error={errors?.password?.message || loginErrorMessage}
+							{...register('password', {
+								required: false,
+								minLength: {
+									value: 6,
+									message: 'Мин. длина пароля - 6 символов'
+								},
+								maxLength: {
+									value: 32,
+									message: 'Макс. длина пароля - 32 символа'
+								}
+							})}
+						/>
 					)}
-					{!cooldown && stage === AuthStageEnum.SMS_CODE && (
+				</div>
+				<div className={styles.buttons}>
+					<Button
+						type='submit'
+						disabled={isPending}
+					>
+						{stage === AuthStage.SMS_CODE ? 'Подтвердить код' : 'Войти'}
+					</Button>
+					{cooldown > 0 && (
+						<CooldownTimer
+							seconds={cooldown}
+							onEnd={() => setCooldown(0)}
+						/>
+					)}
+					{!cooldown && stage === AuthStage.SMS_CODE && (
 						<Button
 							type='button'
 							variant='outlined'
@@ -217,11 +315,11 @@ export const AuthForm = () => {
 				</div>
 				<p className={styles.policy}>
 					Нажимая кнопку{' '}
-					{stage === AuthStageEnum.PHONE ? '"Войти"' : '"Подтвердить код"'}, Вы
+					{stage === AuthStage.PHONE ? '"Войти"' : '"Подтвердить код"'}, Вы
 					соглашаетесь с условиями{' '}
 					<Link
 						className={styles.link}
-						href={ROUTE.POLICY}
+						href={ROUTE.POLICIES}
 						target='_blank'
 					>
 						политики конфиднциальности
@@ -229,7 +327,7 @@ export const AuthForm = () => {
 				</p>
 			</form>
 			<div className={styles.controls}>
-				{stage === AuthStageEnum.SMS_CODE && (
+				{stage === AuthStage.SMS_CODE && (
 					<button
 						className={styles.control}
 						onClick={onBack}

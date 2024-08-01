@@ -32,12 +32,12 @@ export const Sort = ({ isProducts, isPosts }: SortProps) => {
 
 	const isTablet = width && width <= 1024
 
-	const { sortBy, orderBy } = getSearchParams()
-
 	const initializeSorts = (sorts: SortType[]) => {
 		return (
 			sorts.find(
-				(sort) => sort.property === sortBy && sort.order === orderBy
+				(sort) =>
+					sort.property === searchParams.get('sortBy') &&
+					sort.order === searchParams.get('orderBy')
 			) || sorts[0]
 		)
 	}

@@ -6,11 +6,9 @@ export type PostType = {
 	title: string
 	content: string
 	imageUrl?: string
-	videoUrl?: string
-	isPublic: boolean
 	views: number
 
-	user: UserType
+	// user: UserType
 
 	createdAt: string
 	updatedAt: string

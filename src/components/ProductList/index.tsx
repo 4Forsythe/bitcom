@@ -3,7 +3,7 @@
 import { Sort } from '@/components/Sort'
 import { Filters } from '@/components/Filters'
 import { SearchBar } from '@/components/SearchBar'
-import { ProductCard } from '@/app/(section)/product/[id]/Product/ProductCard'
+import { ProductCard } from '@/app/(section)/product/[id]/ProductCard'
 import { EmptyBlock } from '@/components/EmptyBlock'
 import { Pagination } from '@/components/ui/Pagination'
 
@@ -34,7 +34,7 @@ export const ProductList = ({ products }: { products: ProductsType }) => {
 							/>
 						))
 					) : (
-						<EmptyBlock title='К сожалению, товары не были найдены на нашем складе. Попробуйте зайти сюда чуть позже.' />
+						<EmptyBlock title='К сожалению, товары не были найдены на нашем складе. Очень скоро мы это исправим!' />
 					)}
 				</div>
 				{products.items.length > 0 && <Pagination total={products.count} />}

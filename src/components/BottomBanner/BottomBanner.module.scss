@@ -1,0 +1,21 @@
+.container {
+	@apply w-full px-10 py-3.5 bottom-0 z-50 flex items-center justify-center text-zinc-50 bg-zinc-800 overflow-hidden absolute;
+	.inner {
+		@apply gap-5 flex items-start justify-center relative;
+		.cover {
+			.image {
+				@apply w-auto h-10;
+			}
+		}
+		.text {
+			@apply text-xs;
+		}
+		.control {
+			@apply p-1 rounded-md hover:bg-zinc-600/50
+      transition-colors duration-200;
+			.icon {
+				@apply w-auto h-5;
+			}
+		}
+	}
+}

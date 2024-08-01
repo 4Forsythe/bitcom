@@ -14,7 +14,7 @@ export const setAccessToken = (accessToken: string) => {
 	Cookies.set(TokenEnum.ACCESS_TOKEN, accessToken, {
 		domain: process.env.NEXT_PUBLIC_SITE_DOMAIN,
 		sameSite: 'lax',
-		expires: 7
+		expires: 14
 	})
 }
 

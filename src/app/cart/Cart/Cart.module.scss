@@ -9,7 +9,7 @@
 	.side {
 		@apply w-[350px] h-fit top-[144px] sticky;
 		.block {
-			@apply mb-7 px-4 pt-4 pb-5 gap-5 flex flex-col bg-zinc-50 rounded-lg shadow-sm;
+			@apply mb-5 px-4 pt-4 pb-5 gap-5 flex flex-col bg-zinc-50 rounded-lg shadow-sm;
 			.summary {
 				@apply flex items-end justify-between;
 				.amount {
@@ -24,6 +24,12 @@
 			}
 			.action {
 				@apply w-full h-[64px] p-3.5;
+			}
+		}
+		.danger {
+			@apply p-4 bg-red-500 rounded-lg;
+			.text {
+				@apply text-sm text-zinc-50;
 			}
 		}
 	}

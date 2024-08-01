@@ -1,0 +1,9 @@
+.container {
+	@apply w-full px-5 py-4 flex flex-col bg-zinc-50 rounded-lg shadow-sm overflow-hidden;
+	.title {
+		@apply mb-2 text-lg font-bold;
+	}
+	.inner {
+		@apply h-full;
+	}
+}

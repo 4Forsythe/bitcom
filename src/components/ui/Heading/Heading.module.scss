@@ -20,6 +20,7 @@
 }
 @media (max-width: 460px) {
 	.container {
+		@apply my-1.5;
 		.title {
 			@apply my-2.5 text-2xl;
 		}

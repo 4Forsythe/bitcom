@@ -10,24 +10,22 @@ import {
 	ChevronsRight
 } from 'lucide-react'
 
-import styles from './Pagination.module.scss'
 import { Skeleton } from './Skeleton'
 
+import styles from './Pagination.module.scss'
+
 interface PaginationProps {
-	total?: number
+	total: number
+	align?: 'left' | 'center' | 'right'
 }
 
-export const Pagination = ({ total }: PaginationProps) => {
+export const Pagination = ({ total, align = 'center' }: PaginationProps) => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
 
-	if (total === undefined) {
-		return <Skeleton />
-	}
-
-	if (!total) {
-		return null
-	}
+	// if (total === undefined) {
+	// 	return <Skeleton />
+	// }
 
 	const page = Number(searchParams.get('page')) || 1
 	const limit = Number(searchParams.get('limit')) || 20
@@ -49,7 +47,10 @@ export const Pagination = ({ total }: PaginationProps) => {
 	}
 
 	return (
-		<div className={styles.container}>
+		<div
+			className={styles.container}
+			style={{ justifyContent: align }}
+		>
 			<ul className={styles.bar}>
 				{!pageNumbers.includes(1) && (
 					<li className={styles.tile}>

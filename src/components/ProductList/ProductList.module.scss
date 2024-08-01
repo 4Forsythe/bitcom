@@ -1,12 +1,12 @@
 .container {
-	@apply gap-3 flex;
+	@apply min-w-[300px] gap-3 flex grow overflow-hidden;
 	.sidebar {
 		@apply h-full flex flex-col;
 	}
 	.inner {
-		@apply gap-5 flex flex-col grow;
+		@apply max-w-[1005px] gap-5 flex flex-col grow;
 		.search {
-			@apply h-[60px] hidden shadow-md;
+			@apply h-[60px] z-0 hidden shadow-md relative;
 		}
 		.list {
 			@apply mb-5 gap-5 flex flex-col items-center;

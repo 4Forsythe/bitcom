@@ -11,11 +11,32 @@ import { useUserStore } from '@/store/user.store'
 
 import styles from './ProfileSidebar.module.scss'
 import { ROUTE } from '@/config/routes.config'
+import { LogOut } from 'lucide-react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { authService } from '@/services/auth.service'
+import { useRouter } from 'next/navigation'
 
 export const ProfileSidebar = () => {
+	const router = useRouter()
 	const pathname = usePathname()
 
-	const { user } = useUserStore()
+	const queryClient = useQueryClient()
+
+	const { user, setUser } = useUserStore()
+
+	const { mutate, isPending } = useMutation({
+		mutationKey: ['logout'],
+		mutationFn: () => authService.logout(),
+		onSuccess: () => {
+			queryClient.removeQueries({ queryKey: ['profile'] })
+			setUser(null)
+		}
+	})
+
+	const logout = () => {
+		mutate()
+		router.push(ROUTE.HOME)
+	}
 
 	return (
 		<nav className={styles.container}>
@@ -38,7 +59,7 @@ export const ProfileSidebar = () => {
 				))}
 			</ul>
 			{user?.role && (
-				<ul className={clsx(styles.menu, 'animate-opacity')}>
+				<ul className={clsx(styles.menu)}>
 					{PROTECTED_MENU.map((item) => (
 						<li
 							key={item.href}
@@ -58,6 +79,16 @@ export const ProfileSidebar = () => {
 					))}
 				</ul>
 			)}
+			<div className={styles.item}>
+				<button
+					className={styles.tab}
+					disabled={isPending}
+					onClick={logout}
+				>
+					<LogOut className={styles.icon} />
+					Выйти
+				</button>
+			</div>
 		</nav>
 	)
 }

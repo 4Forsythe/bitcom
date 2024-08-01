@@ -15,7 +15,7 @@ import { EmptyBlock } from '@/components/EmptyBlock'
 import clsx from 'clsx'
 
 export const Cart = () => {
-	const { data, isLoading, isError } = useCart()
+	const { data, isLoading } = useCart()
 
 	return (
 		<div className={styles.container}>
@@ -38,30 +38,44 @@ export const Cart = () => {
 				)}
 			</div>
 			<div className={styles.side}>
-				{!isLoading && (
-					<div className={clsx(styles.block, 'animate-opacity')}>
-						<div className={styles.summary}>
-							<div className={styles.amount}>
-								<span className={styles.total}>Итого</span>
-								<span className={styles.text}>
-									{calcNounDeclension(
-										data?.count || 0,
-										'товар',
-										'товара',
-										'товаров'
-									)}
-								</span>
-							</div>
-							<span className={styles.text}>{data?.total} ₽</span>
+				<div className={clsx(styles.block, 'animate-opacity')}>
+					<div className={styles.summary}>
+						<div className={styles.amount}>
+							<span className={styles.total}>Итого</span>
+							<span className={styles.text}>
+								{data?.count
+									? calcNounDeclension(
+											data?.count,
+											'товар',
+											'товара',
+											'товаров'
+										)
+									: 'Нет товаров'}
+							</span>
 						</div>
-						<Button
-							className={styles.action}
-							disabled={!data?.items.length}
-						>
-							Начать оформление
-						</Button>
+						<span className={styles.text}>{data?.total || 0} ₽</span>
 					</div>
-				)}
+					<Button
+						className={styles.action}
+						variant='outlined'
+						disabled
+					>
+						Начать оформление
+					</Button>
+				</div>
+				<div className={styles.danger}>
+					<span className={styles.text}>
+						К сожалению, в данный момент у нас отсутствует возможность
+						онлайн-оформления заказа.
+						<br />
+						Пожалуйста, обращайтесь к нам на линию:
+						<br />
+						8 (927) 783 90-22 или 8 (8482) 41 1212.
+						<br />
+						Вы также можете написать нам на почту: info@bitcom63.ru или
+						bitcom63@yandex.ru.
+					</span>
+				</div>
 			</div>
 		</div>
 	)

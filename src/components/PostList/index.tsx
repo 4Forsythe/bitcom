@@ -2,7 +2,7 @@
 
 import { Filters } from '@/components/Filters'
 import { Sort } from '@/components/Sort'
-import { PostCard } from '@/app/(page)/blog/[id]/Post/PostCard'
+import { PostCard } from '@/app/(page)/blog/[id]/PostCard'
 import { Pagination } from '@/components/ui/Pagination'
 import { EmptyBlock } from '@/components/EmptyBlock'
 
@@ -14,7 +14,6 @@ import { SearchBar } from '../SearchBar'
 
 interface PostListProps {
 	posts: PostsType
-	searchParams?: { [key: string]: string | undefined }
 }
 
 export const PostList = ({ posts }: PostListProps) => {

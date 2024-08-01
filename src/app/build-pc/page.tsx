@@ -1,9 +1,16 @@
 import Link from 'next/link'
+import type { Metadata } from 'next'
 
 import { Heading } from '@/components/ui/Heading'
 import { Section } from '@/components/Section'
 
 import styles from '@/components/Section/Section.module.scss'
+
+export const metadata: Metadata = {
+	title: 'Сборка персональных компьютеров на заказ',
+	description:
+		'Компания «БитКом» осуществляет сборку персональных и офисных компьютеров на заказ в городе Тольятти. Как из абсолютно новых комплектующих деталей, так и совмещая проверенные Б/У комплектующие, наши мастера помогут вам собрать ваш компьютер мечты!'
+}
 
 export default function BuildPCPage() {
 	return (

@@ -20,6 +20,7 @@ import { ROUTE } from '@/config/routes.config'
 import { useCreatePost } from '@/hooks/useCreatePost'
 
 import styles from './WriteForm.module.scss'
+import { useUpdatePost } from '@/hooks/useUpdatePost'
 
 export const WriteForm = ({ post }: { post?: PostType }) => {
 	const router = useRouter()
@@ -32,19 +33,42 @@ export const WriteForm = ({ post }: { post?: PostType }) => {
 		}
 	})
 
-	const { mutate: createPost, isPending, isSuccess } = useCreatePost()
+	const {
+		mutate: createPost,
+		isPending: isCreatePostPending,
+		isSuccess: isCreatePostSuccess
+	} = useCreatePost()
+	const {
+		mutate: updatePost,
+		isPending: isUpdatePostPending,
+		isSuccess: isUpdatePostSuccess
+	} = useUpdatePost()
+
+	const isPending = isCreatePostPending || isUpdatePostPending
+	const isSuccess = isCreatePostSuccess || isUpdatePostSuccess
 
 	const onSubmit: SubmitHandler<PostFormType> = (data) => {
-		const post: PostFormType = {
+		const form: PostFormType = {
 			title: data.title,
 			content
 		}
 
-		createPost(post, {
-			onSuccess: (data) => {
-				router.push(`${ROUTE.BLOG}/${data.id}`)
-			}
-		})
+		if (post?.id) {
+			updatePost(
+				{ id: post.id, data: form },
+				{
+					onSuccess: () => {
+						router.push(`${ROUTE.BLOG}/${post.id}`)
+					}
+				}
+			)
+		} else {
+			createPost(form, {
+				onSuccess: (data) => {
+					router.push(`${ROUTE.BLOG}/${data.id}`)
+				}
+			})
+		}
 	}
 
 	return (

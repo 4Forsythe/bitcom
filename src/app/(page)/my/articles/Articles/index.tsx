@@ -20,17 +20,19 @@ import { errorCatch } from '@/api/error-catch'
 
 import styles from './Articles.module.scss'
 import { useUserStore } from '@/store/user.store'
-import { PostCard } from '@/app/(page)/blog/[id]/Post/PostCard'
+import { PostCard } from '@/app/(page)/blog/[id]/PostCard'
 import { useArticles } from '@/hooks/useArticles'
-import { ArticleCard } from '@/components/ArticleCard'
-import { Skeleton } from '@/components/ArticleCard/Skeleton'
+import { ArticleCard } from '@/app/(page)/my/articles/ArticleCard'
+import { Skeleton } from '@/app/(page)/my/articles/ArticleCard/Skeleton'
 import { Pagination } from '@/components/ui/Pagination'
 import { EmptyBlock } from '@/components/EmptyBlock'
 
 export const Articles = () => {
 	const { data, isLoading, isSuccess } = useArticles()
 
-	if (isSuccess && !!!data?.items) {
+	console.log(data?.items.length === 0)
+
+	if (data?.items.length === 0) {
 		return (
 			<div className={styles.container}>
 				<EmptyBlock
@@ -53,7 +55,12 @@ export const Articles = () => {
 							/>
 						))}
 			</div>
-			<Pagination total={data?.count} />
+			{data?.count && (
+				<Pagination
+					total={data?.count}
+					align='left'
+				/>
+			)}
 		</div>
 	)
 }

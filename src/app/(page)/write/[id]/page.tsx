@@ -6,9 +6,11 @@ import { WriteForm } from '@/app/(page)/write/WriteForm'
 import { userService } from '@/services/user.service'
 import { redirect } from 'next/navigation'
 import { postService } from '@/services/post.service'
+import { NO_INDEX } from '@/constants/seo.constants'
 
 export const metadata: Metadata = {
-	title: 'Написать статью'
+	title: 'Редактировать статью',
+	...NO_INDEX
 }
 
 export default async function WritePage({

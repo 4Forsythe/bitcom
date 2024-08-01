@@ -1,5 +1,4 @@
-import { store } from '@/api/interceptors/store-instance'
-
+import { api } from '@/api/interceptors/api-instance'
 import type {
 	DiscountType,
 	DiscountsType,
@@ -10,12 +9,12 @@ class DiscountService {
 	private endpoint = '/discounts'
 
 	async getAll(params?: DiscountParams): Promise<DiscountsType> {
-		const response = await store.get(this.endpoint, { params })
+		const response = await api.get(this.endpoint, { params })
 		return response.data
 	}
 
 	async getOne(id: string): Promise<DiscountType> {
-		const response = await store.get(`${this.endpoint}/${id}`)
+		const response = await api.get(`${this.endpoint}/${id}`)
 		return response.data
 	}
 }

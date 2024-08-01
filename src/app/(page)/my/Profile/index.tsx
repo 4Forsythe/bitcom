@@ -17,7 +17,6 @@ import type { UserFormType } from '@/types/user.types'
 import { formatPhone } from '@/utils/format-phone'
 
 import styles from './Profile.module.scss'
-import { AxiosError } from 'axios'
 import { errorCatch } from '@/api/error-catch'
 
 export const Profile = () => {
@@ -48,7 +47,7 @@ export const Profile = () => {
 	const onSubmit: SubmitHandler<UserFormType> = (data) => {
 		mutate({
 			name: data.name?.trim(),
-			email: data.email?.trim().toLowerCase()
+			password: data.password?.trim() || undefined
 		})
 	}
 
@@ -94,7 +93,16 @@ export const Profile = () => {
 						id='password'
 						label='Сменить пароль'
 						type='password'
-						{...register('password')}
+						{...register('password', {
+							minLength: {
+								value: 6,
+								message: 'Слишком длинное имя пользователя'
+							},
+							maxLength: {
+								value: 32,
+								message: 'Слишком длинное имя пользователя'
+							}
+						})}
 						isLoading={isPending}
 					/>
 					<div className={styles.controls}>

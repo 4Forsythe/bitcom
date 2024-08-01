@@ -1,5 +1,5 @@
 .container {
-	@apply h-full py-5 flex flex-col border-t border-zinc-300;
+	@apply h-full py-5 gap-5 flex flex-col border-t border-zinc-300;
 	.list {
 		@apply gap-3.5 grid grid-cols-2;
 	}

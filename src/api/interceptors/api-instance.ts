@@ -1,11 +1,16 @@
 import axios, { type CreateAxiosDefaults } from 'axios'
 
-import { getAccessToken } from '@/services/auth-token.service'
+import {
+	getAccessToken,
+	removeAccessToken
+} from '@/services/auth-token.service'
+import { errorCatch } from '../error-catch'
+import { authService } from '@/services/auth.service'
 
 const isServerFetch = typeof window === 'undefined'
 
 const options: CreateAxiosDefaults = {
-	baseURL: isServerFetch ? process.env.SERVER_API_URL : '/api',
+	baseURL: isServerFetch ? process.env.API_BASE_URL : '/api',
 	headers: {
 		'Content-Type': 'application/json'
 	},
@@ -18,6 +23,10 @@ export const apiWithHeaders = axios.create(options)
 apiWithHeaders.interceptors.request.use((config) => {
 	const accessToken = getAccessToken()
 
+	if (!accessToken) {
+		return Promise.reject(new Error('unauthorized or token expired'))
+	}
+
 	if (config?.headers && accessToken) {
 		config.headers.Authorization = `Bearer ${accessToken}`
 	}
@@ -25,28 +34,28 @@ apiWithHeaders.interceptors.request.use((config) => {
 	return config
 })
 
-// apiWithHeaders.interceptors.response.use(
-// 	(config) => config,
-// 	async (error) => {
-// 		const req = error.config
+apiWithHeaders.interceptors.response.use(
+	(config) => config,
+	async (error) => {
+		const req = error.config
 
-// 		if (
-// 			(error?.response?.status === 401 ||
-// 				catcher(error) === 'jwt expired' ||
-// 				catcher(error) === 'jwt must be provided') &&
-// 			error.config &&
-// 			!error.config._isRetry
-// 		) {
-// 			req._isRetry = true
+		if (
+			(error?.response?.status === 401 ||
+				errorCatch(error) === 'jwt expired' ||
+				errorCatch(error) === 'jwt must be provided') &&
+			error.config &&
+			!error.config._isRetry
+		) {
+			req._isRetry = true
 
-// 			try {
-// 				await authService.getTokens()
-// 				return apiWithHeaders.request(req)
-// 			} catch (error) {
-// 				catcher(error) === 'jwt expired' && removeAccessToken()
-// 			}
-// 		}
+			try {
+				await authService.getTokens()
+				return apiWithHeaders.request(req)
+			} catch (error) {
+				errorCatch(error) === 'jwt expired' && removeAccessToken()
+			}
+		}
 
-// 		throw error
-// 	}
-// )
+		throw error
+	}
+)

@@ -16,7 +16,7 @@ import { formatCase } from '@/utils/format-case'
 
 import type { ProductCharacteristicsType } from '@/types/product.types'
 
-import { categoryService } from '@/services/category.service'
+import { productCategoryService } from '@/services/product-category.service'
 import { deviceService } from '@/services/device.service'
 
 import { useModal } from '@/hooks/useModal'
@@ -45,7 +45,7 @@ export const Filters = ({ initialCategories, initialTypes }: FilterProps) => {
 
 	const { data: categories, isLoading: isCategoriesLoading } = useQuery({
 		queryKey: ['categories'],
-		queryFn: () => categoryService.getAll(),
+		queryFn: () => productCategoryService.getAll(),
 		initialData: initialCategories
 	})
 
@@ -79,7 +79,7 @@ export const Filters = ({ initialCategories, initialTypes }: FilterProps) => {
 		<div className={styles.container}>
 			<div className={styles.inner}>
 				<div
-					className={clsx(styles.dropdown, {
+					className={clsx(styles.dropdown, 'animate-opacity', {
 						[styles.collapsed]: !isTarget.categories
 					})}
 				>
@@ -105,7 +105,7 @@ export const Filters = ({ initialCategories, initialTypes }: FilterProps) => {
 					</div>
 				</div>
 				<div
-					className={clsx(styles.dropdown, {
+					className={clsx(styles.dropdown, 'animate-opacity', {
 						[styles.collapsed]: !isTarget.devices
 					})}
 				>
@@ -127,7 +127,7 @@ export const Filters = ({ initialCategories, initialTypes }: FilterProps) => {
 								href={`${ROUTE.SEARCH}?device=${item.id}`}
 								onClick={onPopupCollapse}
 							>
-								{item.name}
+								{formatCase(item.name)}
 							</Link>
 						))}
 						<Link

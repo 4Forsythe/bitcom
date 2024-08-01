@@ -13,7 +13,7 @@ interface UserStateProps {
 	wishList: WishListType | null
 	cartCount: number
 	wishListCount: number
-	setUser: (data: UserType) => void
+	setUser: (data: UserType | null) => void
 	setCart: (data: CartType) => void
 	setWishList: (data: WishListType) => void
 	getCartCount: () => Promise<void>

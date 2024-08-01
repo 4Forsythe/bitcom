@@ -1,0 +1,9 @@
+.container {
+	@apply w-fit px-3 py-1.5 gap-1.5 inline-flex items-center text-sm outline-none rounded-md transition-all duration-300;
+	&.contained {
+		@apply text-zinc-50 bg-zinc-700 hover:text-zinc-700 hover:bg-zinc-200;
+	}
+	&.outlined {
+		@apply text-zinc-700 bg-zinc-300/70 hover:text-zinc-50 hover:bg-zinc-700;
+	}
+}

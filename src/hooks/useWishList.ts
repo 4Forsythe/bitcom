@@ -12,7 +12,8 @@ export function useWishList() {
 
 	const { data, isLoading, isSuccess, isError } = useQuery({
 		queryKey: ['wish-list'],
-		queryFn: () => wishListService.getAll()
+		queryFn: () => wishListService.getAll(),
+		retry: 0
 	})
 
 	React.useEffect(() => {

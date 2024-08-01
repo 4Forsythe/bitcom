@@ -1,7 +1,15 @@
 'use client'
 
 import clsx from 'clsx'
-import { Clock, Eye, MessageSquare, NotebookPen, Trash } from 'lucide-react'
+import {
+	Clock,
+	Eye,
+	MessageSquare,
+	NotebookPen,
+	PencilLine,
+	Trash,
+	Trash2
+} from 'lucide-react'
 
 import { useUserStore } from '@/store/user.store'
 
@@ -16,6 +24,8 @@ import { useDeletePost } from '@/hooks/useDeletePost'
 import Link from 'next/link'
 import { ROUTE } from '@/config/routes.config'
 import { useRouter } from 'next/navigation'
+import { onCreateMarkup } from '@/utils/create-markup'
+import { Heading } from '@/components/ui/Heading'
 
 export const Post = ({
 	id,
@@ -33,10 +43,6 @@ export const Post = ({
 	const { user } = useUserStore()
 	const { mutate, isPending, isSuccess } = useDeletePost()
 
-	const onCreateMarkup = (content: string) => {
-		return { __html: content }
-	}
-
 	const onRemove = () => {
 		mutate(id)
 		router.back()
@@ -45,20 +51,24 @@ export const Post = ({
 	return (
 		<div className={styles.container}>
 			<div className={styles.head}>
-				<h1 className={styles.title}>{title}</h1>
+				<Heading
+					title={title}
+					control
+				/>
 				{user?.role && (
-					<div className={clsx(styles.controls, 'animate-opacity')}>
+					<div className={styles.controls}>
 						<Link
-							href={`${ROUTE.EDITOR}/${id}`}
 							className={styles.control}
+							href={`${ROUTE.EDITOR}/${id}`}
 						>
-							Изменить <NotebookPen className={styles.icon} />
+							<PencilLine className={styles.icon} />
 						</Link>
 						<button
 							className={styles.control}
 							onClick={onRemove}
+							disabled={isPending}
 						>
-							Удалить <Trash className={styles.icon} />
+							<Trash2 className={styles.icon} />
 						</button>
 					</div>
 				)}
@@ -78,10 +88,10 @@ export const Post = ({
 						<Clock className={styles.icon} />
 						<span className={styles.text}>{calcReadingTime(content)} мин</span>
 					</div>
-					<button className={styles.comment}>
+					{/* <button className={styles.comment}>
 						<MessageSquare className={styles.icon} />
 						<span className={styles.text}>5</span>
-					</button>
+					</button> */}
 				</div>
 			</div>
 			<div

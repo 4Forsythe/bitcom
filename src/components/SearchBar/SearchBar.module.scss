@@ -1,5 +1,5 @@
 .container {
-	@apply h-[58px] px-5 flex items-center grow z-50 bg-neutral-200 relative rounded-lg overflow-hidden
+	@apply h-[58px] px-5 flex items-center grow z-50 bg-neutral-200/70 rounded-lg relative
 	transition-shadow duration-200;
 	&.focused {
 		@apply z-50 shadow-md bg-zinc-50;
@@ -23,6 +23,22 @@
 		}
 		.divider {
 			@apply w-0.5 h-5 bg-zinc-300;
+		}
+	}
+	.presearch {
+		@apply w-full mt-1.5 top-[100%] left-0 bg-zinc-50 rounded-lg absolute;
+		.items {
+			@apply py-3 flex flex-col;
+			.item {
+				@apply w-full h-10 px-4 gap-2 flex items-center hover:bg-zinc-200 truncate
+				transition-colors duration-200;
+				.title {
+					@apply grow;
+				}
+				.icon {
+					@apply w-auto h-5 text-zinc-400/80;
+				}
+			}
 		}
 	}
 }

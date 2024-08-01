@@ -1,7 +1,7 @@
 .container {
 	@apply px-2.5;
 	.banner {
-		@apply h-[280px] mb-24 px-8 py-10 bg-gradient-to-r from-red-500 to-zinc-300 rounded-xl shadow-md break-words relative;
+		@apply h-[280px] mb-24 px-8 py-10 bg-gradient-to-r from-red-600 to-red-300 rounded-xl shadow-md break-words relative;
 		.title {
 			@apply text-zinc-50 text-5xl font-bold;
 		}
@@ -36,7 +36,7 @@
 				}
 			}
 			.address {
-				@apply px-2 py-1 font-medium outline-none hover:text-zinc-50 hover:bg-zinc-700 rounded-md
+				@apply w-fit px-2.5 py-1 font-medium outline-none hover:text-zinc-50 hover:bg-zinc-700 rounded-md
 				transition-all duration-300;
 			}
 		}

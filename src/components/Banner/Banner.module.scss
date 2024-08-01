@@ -1,9 +1,9 @@
 .container {
-	@apply w-full min-h-[200px] px-10 py-7 rounded-lg overflow-hidden relative;
+	@apply w-full px-10 py-7 bg-gradient-to-r from-red-600 to-red-300 rounded-lg overflow-hidden relative;
 	.cover {
 		@apply w-56 h-56 right-10 -bottom-10 absolute;
 		.icon {
-			@apply w-full h-full opacity-80 text-zinc-50;
+			@apply w-full h-full opacity-50 text-zinc-50;
 		}
 	}
 	.inner {
@@ -12,7 +12,44 @@
 			@apply text-3xl font-bold text-zinc-50 uppercase;
 		}
 		.description {
-			@apply text-lg leading-[1.6rem] text-zinc-200;
+			@apply leading-[1.6rem] text-zinc-200;
+		}
+	}
+}
+
+@media (max-width: 560px) {
+	.container {
+		@apply px-7 py-5;
+		.cover {
+			@apply w-36 h-36 right-5 -bottom-5 absolute;
+			.icon {
+				@apply w-full h-full opacity-50 text-zinc-50;
+			}
+		}
+	}
+}
+@media (max-width: 430px) {
+	.container {
+		.cover {
+			@apply opacity-30;
+		}
+		.inner {
+			@apply max-w-full;
+			.title {
+				@apply text-xl;
+			}
+		}
+	}
+}
+@media (max-width: 390px) {
+	.container {
+		.cover {
+			@apply opacity-15;
+		}
+		.inner {
+			.description {
+				@apply text-base;
+			}
 		}
 	}
 }

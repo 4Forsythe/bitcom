@@ -1,0 +1,71 @@
+.container {
+	@apply max-w-[435px] w-full p-3.5 gap-3 flex bg-zinc-50 border border-zinc-200 rounded-2xl shadow-md overflow-hidden;
+	.cover {
+		@apply w-[150px] h-full flex items-center justify-center rounded-lg overflow-hidden hover:*:scale-125;
+		.image {
+			@apply w-full h-full object-cover transition-transform duration-300;
+		}
+	}
+	.information {
+		@apply gap-1 flex shrink flex-1 flex-col grow truncate;
+		.title {
+			@apply flex items-center justify-between text-xl font-bold hover:text-red-500 overflow-hidden truncate
+      transition-colors duration-200;
+		}
+		.details {
+			@apply gap-x-2.5 gap-y-0.5 inline-flex flex-wrap items-center;
+			.timestamp {
+				@apply text-sm text-zinc-400 whitespace-normal;
+			}
+			.views {
+				@apply gap-0.5 inline-flex items-center text-sm text-zinc-500/70;
+				.icon {
+					@apply w-auto h-4;
+				}
+			}
+		}
+		.description {
+			@apply max-h-[2.75rem] shrink my-1 text-sm text-zinc-700/70 grow whitespace-normal overflow-hidden;
+		}
+		.controls {
+			@apply gap-1.5 inline-flex items-center;
+			.control {
+				@apply p-1.5 border border-zinc-200 text-zinc-400 bg-zinc-200 rounded-lg hover:text-red-500 hover:bg-red-100
+        transition-colors duration-200;
+				.icon {
+					@apply w-auto h-4;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		@apply p-2 flex-col;
+		.cover {
+			@apply w-full max-h-[150px];
+		}
+		.information {
+			.title {
+				@apply text-base;
+			}
+			.details {
+				.timestamp {
+					@apply text-xs;
+				}
+				.views {
+					@apply text-sm;
+				}
+			}
+			.description {
+				@apply text-xs;
+			}
+		}
+	}
+}
+@media (max-width: 390px) {
+	.container {
+		@apply p-1.5;
+	}
+}

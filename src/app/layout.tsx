@@ -7,9 +7,10 @@ import { ModalProvider } from '@/contexts/ModalContext'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 
-import { SITE_NAME } from '@/constants/seo.constants'
+import { SITE_NAME, SITE_DESCRIPTION } from '@/constants/seo.constants'
 
 import '@/styles/main.scss'
+import { BottomBanner } from '@/components/BottomBanner'
 
 const ptSans = PT_Sans({
 	subsets: ['latin', 'cyrillic'],
@@ -23,7 +24,19 @@ export const metadata: Metadata = {
 		default: SITE_NAME,
 		template: `%s | ${SITE_NAME}`
 	},
-	description: 'The simple and stronger one for planning your activities!'
+	description: SITE_DESCRIPTION,
+	openGraph: {
+		images: [
+			{
+				url: '/static/LOGO.png'
+			}
+		]
+	},
+	icons: {
+		icon: ['/favicon.ico?v=4'],
+		apple: ['/apple-touch-icon.png?v=4'],
+		shortcut: ['/apple-touch-icon.png']
+	}
 }
 
 export default function RootLayout({
@@ -32,7 +45,10 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang='en'>
+		<html
+			lang='ru'
+			className='scroll-smooth'
+		>
 			<body className={ptSans.className}>
 				<Providers>
 					<ModalProvider>
@@ -41,6 +57,7 @@ export default function RootLayout({
 							<main className='main'>{children}</main>
 						</div>
 						<Footer />
+						<BottomBanner />
 					</ModalProvider>
 				</Providers>
 			</body>

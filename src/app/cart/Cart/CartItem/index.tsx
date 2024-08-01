@@ -80,7 +80,7 @@ export const CartItem = ({ id, product, count }: CartItemType) => {
 						className={styles.image}
 						width={100}
 						height={100}
-						src={'/images/image-placeholder.png'}
+						src={'/static/image-placeholder.png'}
 						alt='1'
 						priority
 					/>

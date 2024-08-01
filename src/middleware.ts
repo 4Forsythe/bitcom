@@ -5,7 +5,7 @@ import { TokenEnum } from './services/auth-token.service'
 export async function middleware(request: NextRequest) {
 	const { url, cookies } = request
 
-	const api = String(process.env.SERVER_API_URL)
+	const api = String(process.env.API_BASE_URL)
 
 	const accessToken = cookies.get(TokenEnum.ACCESS_TOKEN)?.value
 	const refreshToken = cookies.get(TokenEnum.REFRESH_TOKEN)?.value

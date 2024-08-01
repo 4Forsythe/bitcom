@@ -13,7 +13,7 @@ export const INFOS: FooterMenuType[] = [
 		label: 'О компании'
 	},
 	{
-		href: ROUTE.POLICY,
+		href: ROUTE.POLICIES,
 		label: 'Политика конфиденциальности'
 	}
 ]
@@ -48,6 +48,6 @@ export const CONTACTS: FooterMenuType[] = [
 	},
 	{
 		href: 'https://yandex.ru/maps/-/CDbr724l',
-		label: `${ADDRESS} Самарская обл., 445047 (вход со стороны магазина «БИТ-КОМ»)`
+		label: `${ADDRESS} Самарская обл., 445047 (вход со стороны магазина «БИТКОМ»)`
 	}
 ]

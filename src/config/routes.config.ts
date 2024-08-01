@@ -20,10 +20,10 @@ class ROUTES {
 
 	SERVICE = `${this.BASE_URL}service-center`
 	ASSEMBLY = `${this.BASE_URL}build-pc`
-	BUYING = `${this.BASE_URL}buy-electronic`
-	UPGRADING = `${this.BASE_URL}upgrade`
+	BUYING = `${this.BASE_URL}buying`
+	UPGRADING = `${this.BASE_URL}upgrading`
 	ABOUT = `${this.BASE_URL}about-us`
-	POLICY = `${this.BASE_URL}policies`
+	POLICIES = `${this.BASE_URL}our-policies`
 }
 
 export const ROUTE = new ROUTES()

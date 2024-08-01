@@ -28,14 +28,14 @@ class PostService {
 		if (token) {
 			const headers = { Authorization: `Bearer ${token}` }
 
-			const response = await api.get<PostsType>(`${this.endpoint}/me`, {
+			const response = await api.get<PostsType>(`${this.endpoint}/my`, {
 				headers,
 				params
 			})
 			return response.data
 		} else {
 			const response = await apiWithHeaders.get<PostsType>(
-				`${this.endpoint}/me`,
+				`${this.endpoint}/my`,
 				{ params }
 			)
 			return response.data
@@ -44,6 +44,15 @@ class PostService {
 
 	async getOne(id: string) {
 		const response = await api.get<PostType>(`${this.endpoint}/${id}`)
+		return response.data
+	}
+
+	async update(id: string, data: PostFormType) {
+		const response = await apiWithHeaders.patch<PostType>(
+			`${this.endpoint}/${id}`,
+			data
+		)
+
 		return response.data
 	}
 

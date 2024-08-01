@@ -1,7 +1,7 @@
 .container {
 	@apply mb-8 px-4;
 	.inner {
-		@apply p-8 gap-5 flex flex-col bg-neutral-50 rounded-md shadow-md;
+		@apply px-8 py-10 gap-5 flex flex-col bg-neutral-50 shadow-sm;
 		.list {
 			@apply pl-4 list-disc;
 			li {
@@ -14,6 +14,15 @@
 		.link {
 			@apply w-fit px-2.5 py-1.5 inline-flex font-medium text-zinc-700 bg-zinc-300 outline-none hover:text-zinc-50 hover:bg-zinc-700 rounded-md
 			transition-all duration-300;
+		}
+	}
+}
+
+@media (max-width: 460px) {
+	.container {
+		@apply px-2.5;
+		.inner {
+			@apply text-sm;
 		}
 	}
 }

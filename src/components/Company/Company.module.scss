@@ -31,12 +31,12 @@
 }
 @media (max-width: 460px) {
 	.container {
-		@apply px-2.5;
+		@apply px-0;
 		.logotype {
-			@apply w-3/5 mt-3.5 p-2;
+			@apply w-4/5 mt-0 p-2;
 		}
 		.description {
-			@apply px-2.5;
+			@apply mt-3.5 p-2.5;
 			.head {
 				@apply gap-0.5 flex-col-reverse items-start;
 				.link {

@@ -30,12 +30,10 @@ export const Header = () => {
 	const { cartCount, wishListCount, getCartCount, getWishListCount } =
 		useUserStore()
 
-	console.log('header', cartCount, wishListCount)
-
 	React.useEffect(() => {
 		getCartCount()
 		getWishListCount()
-	}, [])
+	}, [profile])
 
 	const isLoading = isProfileLoading
 
@@ -74,7 +72,7 @@ export const Header = () => {
 								className={styles.image}
 								width={240}
 								height={50}
-								src='/images/LOGO.png'
+								src='/static/bitcom-banner.png'
 								alt='Logo'
 								priority
 							/>

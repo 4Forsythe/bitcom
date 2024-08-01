@@ -1,5 +1,5 @@
 .container {
-	@apply px-4 py-3.5 flex items-center justify-between bg-zinc-50 border border-zinc-200 rounded-lg shadow-sm;
+	@apply w-full px-4 py-3.5 flex items-center justify-between bg-zinc-50 border border-zinc-200 rounded-lg shadow-sm;
 	.list {
 		@apply h-full gap-1.5 flex items-center relative;
 		.item {

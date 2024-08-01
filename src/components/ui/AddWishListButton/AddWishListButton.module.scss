@@ -1,0 +1,29 @@
+.container {
+	@apply p-2.5 border inline-flex items-center justify-center rounded-lg relative
+  transition-colors duration-200;
+	&.contained {
+		@apply text-red-500 bg-red-100 border-red-300 hover:bg-red-200;
+	}
+	&.outlined {
+		@apply text-zinc-400 bg-zinc-200 border-zinc-200 rounded-lg hover:text-zinc-700;
+	}
+	&.loaded {
+		@apply opacity-75 text-transparent animate-pulse;
+		.loader {
+			@apply w-auto h-5 text-zinc-500 absolute animate-spin;
+		}
+		&.contained {
+			.loader {
+				@apply text-red-400;
+			}
+		}
+		&.outlined {
+			.loader {
+				@apply text-zinc-500;
+			}
+		}
+	}
+	.icon {
+		@apply w-auto h-5;
+	}
+}

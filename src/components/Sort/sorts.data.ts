@@ -7,7 +7,7 @@ export type SortType = {
 export const PRODUCT_SORTS: SortType[] = [
 	{
 		name: 'Сначала новые',
-		property: 'new',
+		property: 'createdAt',
 		order: 'desc'
 	},
 	{

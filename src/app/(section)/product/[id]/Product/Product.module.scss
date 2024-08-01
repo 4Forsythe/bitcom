@@ -1,5 +1,5 @@
 .container {
-	@apply p-8 gap-8 grid grid-cols-2 bg-zinc-50 rounded-lg shadow-sm;
+	@apply p-8 gap-8 grid grid-cols-[0.5fr,1fr] bg-zinc-50 shadow-sm;
 	.cover {
 		@apply rounded-lg overflow-hidden;
 		.image {
@@ -20,7 +20,13 @@
 		.options {
 			@apply gap-4 flex flex-col;
 			.availables {
-				@apply gap-2 flex items-center;
+				@apply gap-2 flex items-end;
+				.article {
+					@apply flex flex-col;
+					.text {
+						@apply pl-2 font-bold;
+					}
+				}
 				.breadcrumb {
 					@apply w-fit my-1 px-2 py-1.5 text-zinc-500 bg-zinc-100 rounded-lg;
 				}
@@ -46,6 +52,16 @@
 				}
 				.price {
 					@apply px-6 py-3 text-2xl font-bold self-start justify-self-end;
+				}
+			}
+		}
+		.marketplaces {
+			@apply px-3.5 gap-1.5 flex items-center;
+			.item {
+				@apply w-fit px-2 py-1.5 flex items-center justify-center bg-zinc-100 border border-zinc-300 rounded-lg hover:bg-zinc-200
+				transition-colors duration-300;
+				.image {
+					@apply w-auto h-[1.15rem];
 				}
 			}
 		}

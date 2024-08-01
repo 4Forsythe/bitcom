@@ -1,7 +1,7 @@
 .container {
-	@apply my-4 px-1.5;
+	@apply my-4 px-1.5 flex;
 	.bar {
-		@apply px-4 gap-1.5 flex items-center justify-center;
+		@apply px-4 gap-1.5 flex items-center;
 		.tile {
 			@apply w-[40px] h-[40px];
 			.page {

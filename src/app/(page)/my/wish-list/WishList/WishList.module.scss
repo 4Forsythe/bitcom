@@ -5,6 +5,20 @@
 	}
 }
 
+@media (max-width: 944px) {
+	.container {
+		.list {
+			@apply grid-cols-3;
+		}
+	}
+}
+@media (max-width: 690px) {
+	.container {
+		.list {
+			@apply grid-cols-2;
+		}
+	}
+}
 @media (max-width: 564px) {
 	.container {
 		@apply py-1.5;

@@ -9,6 +9,7 @@ import { ROUTE } from '@/config/routes.config'
 import type { DiscountType } from '@/types/discount.types'
 
 import styles from './DiscountCard.module.scss'
+import { Skeleton } from './Skeleton'
 
 export const DiscountCard = ({
 	id,
@@ -19,25 +20,25 @@ export const DiscountCard = ({
 	targetId,
 	type
 }: DiscountType) => {
-	if (!percent) {
-		return <span>Загрузка...</span>
-	}
+	// if (!percent) {
+	// 	return <Skeleton />
+	// }
 
 	return (
-		<article className={styles.wrap}>
-			<div className={styles.container}>
+		<article className={styles.container}>
+			<div className={styles.inner}>
 				<span className={styles.timer}>
-					{`Еще ${calcNounDeclension(calcActionCountdown(dateEnd), 'день', 'дня', 'дней')}`}
+					{`Еще ${calcNounDeclension(calcActionCountdown('07.08.2024'), 'день', 'дня', 'дней')} скидка`}
 				</span>
-				<p className={styles.super}>{`Скидка на ${formatCase(target)}`}</p>
+				<p className={styles.title}>{`Скидка на ${formatCase('абв')}`}</p>
 				<div className={styles.controls}>
 					<Link
 						className={styles.link}
-						href={`${ROUTE.SEARCH}?${type}=${targetId}`}
+						href={`${ROUTE.SEARCH}?`}
 					>
-						Смотреть
+						Подробнее
 					</Link>
-					<span className={styles.percent}>-{percent}%</span>
+					<span className={styles.percent}>-5%</span>
 				</div>
 			</div>
 		</article>

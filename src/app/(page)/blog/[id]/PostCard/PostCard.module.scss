@@ -1,0 +1,61 @@
+.container {
+	@apply w-full gap-5 p-5 flex bg-zinc-50 border border-zinc-200 rounded-2xl shadow-sm overflow-hidden;
+	.cover {
+		@apply w-[250px] h-[175px] flex items-center justify-center rounded-lg overflow-hidden hover:*:scale-110;
+		.image {
+			@apply w-full h-full object-cover transition-transform duration-300;
+		}
+	}
+	.information {
+		@apply w-full gap-1.5 flex flex-col break-words;
+		.title {
+			@apply max-h-16 flex items-center justify-between text-xl font-bold whitespace-normal hover:text-red-500
+      transition-colors duration-200;
+		}
+		.details {
+			@apply gap-x-2.5 gap-y-0.5 inline-flex flex-wrap items-center;
+			.timestamp {
+				@apply text-sm text-zinc-400;
+			}
+			.views {
+				@apply gap-0.5 inline-flex items-center text-sm text-zinc-500/70;
+				.icon {
+					@apply w-auto h-4;
+				}
+			}
+		}
+		.description {
+			@apply max-h-24 my-1.5 text-sm text-zinc-500/70 whitespace-normal;
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		@apply p-2 flex-col;
+		.cover {
+			@apply w-full max-h-[150px];
+		}
+		.information {
+			.title {
+				@apply text-base;
+			}
+			.details {
+				.timestamp {
+					@apply text-xs;
+				}
+				.views {
+					@apply text-sm;
+				}
+			}
+			.description {
+				@apply text-xs;
+			}
+		}
+	}
+}
+@media (max-width: 390px) {
+	.container {
+		@apply p-4;
+	}
+}

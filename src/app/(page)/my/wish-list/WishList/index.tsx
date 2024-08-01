@@ -1,10 +1,10 @@
 'use client'
 
-import { WishListItem } from './WishListItem'
+import { WishListItem } from '../WishListItem'
 import { useWishList } from '@/hooks/useWishList'
 
 import styles from './WishList.module.scss'
-import { Skeleton } from './WishListItem/Skeleton'
+import { Skeleton } from '../WishListItem/Skeleton'
 import { EmptyBlock } from '@/components/EmptyBlock'
 
 export const WishList = () => {
