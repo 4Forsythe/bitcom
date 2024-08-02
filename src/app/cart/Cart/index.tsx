@@ -13,9 +13,20 @@ import { Skeleton } from './CartItem/Skeleton'
 import { Button } from '@/components/ui/Button'
 import { EmptyBlock } from '@/components/EmptyBlock'
 import clsx from 'clsx'
+import {
+	EMAIL,
+	PHONE,
+	SECOND_EMAIL,
+	SECOND_PHONE
+} from '@/constants/contacts.constants'
+import { cartService } from '@/services/cart.service'
 
 export const Cart = () => {
 	const { data, isLoading } = useCart()
+
+	React.useEffect(() => {
+		console.log(cartService.getCookie())
+	}, [])
 
 	return (
 		<div className={styles.container}>
@@ -70,10 +81,10 @@ export const Cart = () => {
 						<br />
 						Пожалуйста, обращайтесь к нам на линию:
 						<br />
-						8 (927) 783 90-22 или 8 (8482) 41 1212.
+						{PHONE} или {SECOND_PHONE}.
 						<br />
-						Вы также можете написать нам на почту: info@bitcom63.ru или
-						bitcom63@yandex.ru.
+						Вы также можете написать нам на почту: {EMAIL} или
+						{SECOND_EMAIL}.
 					</span>
 				</div>
 			</div>

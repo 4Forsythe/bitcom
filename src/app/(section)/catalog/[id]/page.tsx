@@ -52,14 +52,14 @@ export const generateMetadata = async ({
 
 	if (!data) {
 		return {
-			title: `${formatCase(category.name)} — по самым выгодным ценам`
+			title: `${formatCase(category.name)} — купить Б/У по самым выгодным ценам в Тольятти`
 		}
 	}
 
 	const items = data.items.map((item) => item.name).join(', ')
 
 	return {
-		title: `${formatCase(category.name)} — по самым выгодным ценам`,
+		title: `${formatCase(category.name)} — купить Б/У по самым выгодным ценам в Тольятти`,
 		description: `${formatCase(category.name)} — купить Б/У по самым выгодным ценам в Тольятти. ${items}. Всего ${data.count} шт. Доставка по всей Самарской области, включая города Самара, Тольятти, Сызрань.`
 	}
 }

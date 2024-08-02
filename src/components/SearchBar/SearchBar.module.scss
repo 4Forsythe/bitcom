@@ -33,7 +33,7 @@
 				@apply w-full h-10 px-4 gap-2 flex items-center hover:bg-zinc-200 truncate
 				transition-colors duration-200;
 				.title {
-					@apply grow;
+					@apply grow text-left;
 				}
 				.icon {
 					@apply w-auto h-5 text-zinc-400/80;

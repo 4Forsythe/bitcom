@@ -9,7 +9,7 @@
 			}
 		}
 		.cover {
-			@apply w-full h-[150px] mb-3 flex items-center justify-center overflow-hidden hover:*:scale-110;
+			@apply w-full max-h-[150px] mb-3 flex items-center justify-center rounded-lg overflow-hidden hover:*:scale-110;
 			.image {
 				@apply w-full h-auto object-cover transition-transform duration-300;
 			}

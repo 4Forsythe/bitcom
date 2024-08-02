@@ -29,7 +29,10 @@ export const Catalog = ({
 							className={styles.image}
 							width={170}
 							height={120}
-							src='/static/image-placeholder.png'
+							src={
+								`http://192.168.1.200/public/static/images/categories/${category.id}.jpg` ||
+								'/static/image-placeholder.png'
+							}
 							alt={category.name}
 							priority
 						/>

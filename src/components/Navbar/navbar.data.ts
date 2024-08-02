@@ -10,7 +10,8 @@ export const FEATURES: FeaturesType[] = [
 	{
 		href: ROUTE.CATALOG,
 		title: 'Каталог',
-		description: 'Компьютерная и офисная техника, электронное оборудование'
+		description:
+			'Компьютерная и офисная техника, медицинское и электронное оборудование'
 	},
 	{
 		href: ROUTE.BLOG,

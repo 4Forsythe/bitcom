@@ -1,5 +1,5 @@
 .container {
-	@apply w-full gap-5 p-5 flex bg-zinc-50 border border-zinc-200 rounded-2xl shadow-sm overflow-hidden;
+	@apply max-w-[1005px] max-h-[300px] w-full h-full gap-5 p-5 flex bg-zinc-50 border border-zinc-200 rounded-2xl shadow-sm overflow-hidden;
 	.cover {
 		@apply w-[250px] h-[175px] flex items-center justify-center rounded-lg overflow-hidden hover:*:scale-110;
 		.image {
@@ -7,9 +7,9 @@
 		}
 	}
 	.information {
-		@apply w-full gap-1.5 flex flex-col break-words;
+		@apply gap-1.5 flex shrink flex-1 flex-col grow truncate;
 		.title {
-			@apply max-h-16 flex items-center justify-between text-xl font-bold whitespace-normal hover:text-red-500
+			@apply max-h-16 flex items-center justify-between text-xl font-bold hover:text-red-500 overflow-hidden
       transition-colors duration-200;
 		}
 		.details {
@@ -25,7 +25,7 @@
 			}
 		}
 		.description {
-			@apply max-h-24 my-1.5 text-sm text-zinc-500/70 whitespace-normal;
+			@apply max-h-24 shrink my-1.5 text-sm text-zinc-500/70 whitespace-normal;
 		}
 	}
 }

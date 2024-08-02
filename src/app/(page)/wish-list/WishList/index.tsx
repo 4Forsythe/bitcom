@@ -6,15 +6,17 @@ import { useWishList } from '@/hooks/useWishList'
 import styles from './WishList.module.scss'
 import { Skeleton } from '../WishListItem/Skeleton'
 import { EmptyBlock } from '@/components/EmptyBlock'
+import { useUserStore } from '@/store/user.store'
 
 export const WishList = () => {
+	const { user } = useUserStore()
 	const { data, isLoading, isError } = useWishList()
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.list}>
 				{isLoading
-					? [...new Array(4)].map((item, index) => <Skeleton key={index} />)
+					? [...new Array(2)].map((item, index) => <Skeleton key={index} />)
 					: data?.items.map((item) => (
 							<WishListItem
 								key={item.id}

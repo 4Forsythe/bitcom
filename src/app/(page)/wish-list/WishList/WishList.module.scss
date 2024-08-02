@@ -1,0 +1,6 @@
+.container {
+	@apply h-full flex flex-col;
+	.list {
+		@apply px-4 gap-2 flex flex-col;
+	}
+}

@@ -30,7 +30,6 @@ import { CooldownTimer } from '../ui/CooldownTimer'
 import { useUserStore } from '@/store/user.store'
 import { userService } from '@/services/user.service'
 import { useUpdateProfile } from '@/hooks/useUpdateProfile'
-import { phoneSchema } from '@/validation/phone.schema'
 
 enum AuthStage {
 	PHONE = 'Phone',
@@ -266,7 +265,7 @@ export const AuthForm = () => {
 						<Field
 							id='password'
 							className={styles.input}
-							type='text'
+							type='password'
 							maxLength={32}
 							autoComplete='off'
 							placeholder={

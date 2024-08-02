@@ -10,7 +10,10 @@ export const metadata: Metadata = {
 export default function WishListPage() {
 	return (
 		<>
-			<Heading title='Список желаемого' />
+			<Heading
+				title='Список желаемого'
+				control
+			/>
 			<WishList />
 		</>
 	)

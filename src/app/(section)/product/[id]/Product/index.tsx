@@ -13,11 +13,17 @@ import { useCreateCart } from '@/hooks/useCreateCart'
 import { useDeleteCart } from '@/hooks/useDeleteCart'
 import { useToggleWishList } from '@/hooks/useToggleWishList'
 
-import styles from './Product.module.scss'
 import { useModal } from '@/hooks/useModal'
 import { AuthForm } from '@/components/AuthForm'
 import { useUserStore } from '@/store/user.store'
 import Link from 'next/link'
+import { PHONE, SECOND_PHONE } from '@/constants/contacts.constants'
+import { Button } from '@/components/ui/Button'
+import { useMutation } from '@tanstack/react-query'
+import { setCookie } from '@/services/cookie.service'
+import { cartService } from '@/services/cart.service'
+
+import styles from './Product.module.scss'
 
 export const Product = ({ product }: { product: ProductType }) => {
 	const { onOpen } = useModal()
@@ -46,12 +52,14 @@ export const Product = ({ product }: { product: ProductType }) => {
 		useToggleWishList()
 
 	const toCart = () => {
-		authDialog()
-		mutateCreateCart({ productId: product.id, count: 1 })
+		if (user) {
+			mutateCreateCart({ productId: product.id, count: 1 })
+		} else {
+			cartService.setCookie(product)
+		}
 	}
 
 	const removeFromCart = () => {
-		authDialog()
 		if (isInCart) mutateDeleteCart(isInCart.id)
 	}
 
@@ -79,7 +87,7 @@ export const Product = ({ product }: { product: ProductType }) => {
 						<p className={styles.description}>
 							Если у вас возник тот или иной вопрос по товару,
 							<br />
-							звоните нам: 8 927 783-90-22 или 8 (8482) 41 1212.
+							звоните нам: {PHONE} или {SECOND_PHONE}.
 						</p>
 					</div>
 					<div className={styles.options}>
@@ -100,13 +108,14 @@ export const Product = ({ product }: { product: ProductType }) => {
 								</div>
 							) : (
 								<div className={styles.controls}>
-									<button
+									<Button
 										className={styles.buy}
-										disabled={isCreateCartPending || isDeleteCartPending}
+										variant={isInCart ? 'outlined' : 'contained'}
 										onClick={isInCart ? removeFromCart : toCart}
+										disabled={isCreateCartPending || isDeleteCartPending}
 									>
 										{isInCart ? 'Убрать из корзины' : 'Добавить в корзину'}
-									</button>
+									</Button>
 									<button
 										className={clsx(styles.wishlist, {
 											[styles.active]: isInWishList

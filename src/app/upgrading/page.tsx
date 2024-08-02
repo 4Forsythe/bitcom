@@ -5,6 +5,12 @@ import { Heading } from '@/components/ui/Heading'
 import { Section } from '@/components/Section'
 
 import styles from '@/components/Section/Section.module.scss'
+import {
+	EMAIL,
+	PHONE,
+	SECOND_EMAIL,
+	SECOND_PHONE
+} from '@/constants/contacts.constants'
 
 export const metadata: Metadata = {
 	title: 'Обновление парка компьютерной техники для организаций',
@@ -48,33 +54,33 @@ export default function UpgradingPage() {
 					<li>
 						<Link
 							className={styles.link}
-							href='tel:89277839022'
+							href={`tel:${SECOND_PHONE}`}
 						>
-							8-927-783-90-22
+							{SECOND_PHONE}
 						</Link>
 					</li>
 					<li>
 						<Link
 							className={styles.link}
-							href='tel:88482411212'
+							href={`tel:${PHONE}`}
 						>
-							8-8482-41-1212
+							{PHONE}
 						</Link>
 					</li>
 					<li>
 						<Link
 							className={styles.link}
-							href='mailto:info@bitcom63.ru'
+							href={`mailto:${EMAIL}`}
 						>
-							info@bitcom63.ru
+							{EMAIL}
 						</Link>
 					</li>
 					<li>
 						<Link
 							className={styles.link}
-							href='mailto:bitcom63@yandex.ru'
+							href={`mailto:${SECOND_EMAIL}`}
 						>
-							bitcom63@yandex.ru
+							{SECOND_EMAIL}
 						</Link>
 					</li>
 				</ul>

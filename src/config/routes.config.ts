@@ -8,11 +8,11 @@ class ROUTES {
 	DEVICES = `${this.BASE_URL}devices`
 
 	CART = `${this.BASE_URL}cart`
+	WISHLIST = `${this.BASE_URL}wish-list`
 	PRODUCT = `${this.BASE_URL}product`
 
 	PROFILE = `${this.BASE_URL}my`
 	ORDERLIST = `${this.BASE_URL}my/order-list`
-	WISHLIST = `${this.BASE_URL}my/wish-list`
 	ARTICLES = `${this.BASE_URL}my/articles`
 
 	BLOG = `${this.BASE_URL}blog`

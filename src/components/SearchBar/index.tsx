@@ -4,15 +4,15 @@ import React from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import clsx from 'clsx'
-import debounce from 'lodash.debounce'
+import { useQuery } from '@tanstack/react-query'
 import { Search, X, ArrowUpRight } from 'lucide-react'
 
-import styles from './SearchBar.module.scss'
-import { ROUTE } from '@/config/routes.config'
 import { useDebounce } from '@/hooks/useDebounce'
+
+import { ROUTE } from '@/config/routes.config'
 import { productService } from '@/services/product.service'
-import { useQuery } from '@tanstack/react-query'
-import Link from 'next/link'
+
+import styles from './SearchBar.module.scss'
 
 export const SearchBar = () => {
 	const router = useRouter()
@@ -23,8 +23,8 @@ export const SearchBar = () => {
 	const [isHovered, setIsHovered] = React.useState(false)
 	const [isFocused, setIsFocused] = React.useState(false)
 
+	const containerRef = React.useRef<HTMLDivElement>(null)
 	const inputRef = React.useRef<HTMLInputElement>(null)
-	const searchRef = React.useRef<HTMLDivElement>(null)
 	const presearchRef = React.useRef<HTMLDivElement>(null)
 
 	const { query } = useDebounce({ value, delay: 700 })
@@ -42,10 +42,14 @@ export const SearchBar = () => {
 	}
 
 	const onSearch = () => {
-		const params = new URLSearchParams(searchParams.toString())
-		params.set('q', value)
-		router.push(`${ROUTE.SEARCH}?${params.toString()}`)
-		inputRef.current?.blur()
+		if (value.trim()) {
+			const params = new URLSearchParams(searchParams.toString())
+			params.set('q', value)
+			router.push(`${ROUTE.SEARCH}?${params.toString()}`)
+			inputRef.current?.blur()
+		}
+
+		setIsFocused(false)
 	}
 
 	const onClear = () => {
@@ -54,17 +58,17 @@ export const SearchBar = () => {
 	}
 
 	const onMouseEnter = () => {
-		searchRef.current && setIsHovered(true)
+		containerRef.current && setIsHovered(true)
 	}
 
 	const onMouseLeave = () => {
-		searchRef.current && setIsHovered(false)
+		containerRef.current && setIsHovered(false)
 	}
 
 	const handleClickOutside = React.useCallback((event: MouseEvent) => {
 		if (
-			searchRef.current &&
-			!searchRef.current.contains(event.target as Node)
+			containerRef.current &&
+			!containerRef.current.contains(event.target as Node)
 		) {
 			setIsFocused(false)
 		}
@@ -82,7 +86,7 @@ export const SearchBar = () => {
 		<>
 			{isFocused && <div className={styles.overlay} />}
 			<div
-				ref={searchRef}
+				ref={containerRef}
 				className={clsx(styles.container, {
 					[styles.focused]: isFocused || isHovered
 				})}

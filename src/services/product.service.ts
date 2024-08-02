@@ -14,6 +14,11 @@ class ProductService {
 		return response.data
 	}
 
+	async getByIds(ids: string[]): Promise<ProductsType> {
+		const response = await api.post(this.endpoint, { ids })
+		return response.data
+	}
+
 	async getOne(id: string): Promise<ProductType> {
 		const response = await api.get(`${this.endpoint}/${id}`)
 		return response.data

@@ -13,7 +13,7 @@ export const useToggleWishList = () => {
 	const { mutate, isPending, isSuccess, isError } = useMutation({
 		mutationKey: ['toggle wish-list'],
 		mutationFn: (id: string) => wishListService.toggle(id),
-		onSuccess: (data) => {
+		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['wish-list'] })
 			getWishListCount()
 		}
