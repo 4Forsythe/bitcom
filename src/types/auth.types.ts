@@ -6,17 +6,20 @@ export type AuthType = {
 }
 
 export type AuthFormType = {
-	phone: string
+	name?: string
+	email: string
 	code?: number
 	password?: string
 }
 
 export type LoginFormType = {
-	phone: string
-	code?: number
-	password?: string
+	email: string
+	password: string
 }
 
 export type RegisterFormType = {
-	phone: string
+	name?: string
+	code: number
+	email: string
+	password: string
 }

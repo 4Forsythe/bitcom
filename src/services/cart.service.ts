@@ -21,10 +21,13 @@ class CartService {
 		return response.data
 	}
 
-	setCookie(data: ProductType) {
+	createCookie(data: CartItemFormType) {
 		const cookie = this.getCookie()
 
-		const cart = JSON.stringify(data)
+		const items: CartItemFormType[] = []
+		items.push(data)
+
+		const cart = JSON.stringify(items)
 
 		Cookies.set(this.COOKIE_KEY, cart, { expires: 14 })
 	}
@@ -35,15 +38,35 @@ class CartService {
 		return response.data
 	}
 
-	getCookie(): CartType {
+	async getCookie(): Promise<CartType> {
 		const cookie = Cookies.get(this.COOKIE_KEY)
 
 		if (cookie) {
-			const response = JSON.parse(cookie)
+			const items: CartItemType[] = JSON.parse(cookie)
 
-			console.log('cookie', cookie)
+			const ids = items.map((item) => item.id)
+			const products = await productService.getByIds(ids)
 
-			return response
+			const count = products.items.reduce((acc, item) => acc + item.count, 0)
+			const total = products.items.reduce((acc, item) => {
+				const product = products.items.find((p) => p.id === item.id)
+				return acc + (product ? product.price * item.count : 0)
+			}, 0)
+
+			const cart = items.map((item) => {
+				const product = products.items.find((p) => p.id === item.id)
+
+				return {
+					id: item.id,
+					product: product!,
+					productId: item.id,
+					count: item.count
+				}
+			})
+
+			console.log(cart)
+
+			return { items: cart, count, total }
 		}
 
 		return { items: [], count: 0, total: 0 }
@@ -66,22 +89,69 @@ class CartService {
 		return response.data
 	}
 
-	async remove(id: string): Promise<CartType> {
+	async updateCookie(
+		id: string,
+		data: CartItemFormType
+	): Promise<CartItemType> {
+		const cookie = await this.getCookie()
+
+		const index = cookie.items.findIndex((item) => item.productId === id)
+
+		if (cookie && index !== -1) {
+			const item = {
+				...cookie.items[index],
+				...data,
+				id: cookie.items[index].id,
+				product: cookie.items[index].product,
+				productId: id
+			}
+
+			const count = cookie.items.reduce((acc, item) => acc + item.count, 0)
+			const total = cookie.items.reduce(
+				(acc, item) => acc + item.count * item.product.price,
+				0
+			)
+
+			const cart = JSON.stringify({ ...cookie, count, total })
+
+			Cookies.set(this.COOKIE_KEY, cart, { expires: 14 })
+
+			return item
+		}
+
+		return Promise.reject()
+	}
+
+	async remove(id: string) {
 		const response = await apiWithHeaders.delete<CartType>(
 			`${this.endpoint}/${id}`
 		)
-
-		return response.data
 	}
 
-	removeCookie() {
-		Cookies.remove(this.COOKIE_KEY)
+	removeCookie(id: string) {
+		const cookie = Cookies.get(this.COOKIE_KEY)
+
+		if (cookie) {
+			const items: CartItemType[] = JSON.parse(cookie)
+
+			console.log('input', items)
+
+			const response = items.filter((item) => item.id !== id)
+
+			console.log('output', response)
+
+			Cookies.set(this.COOKIE_KEY, JSON.stringify(response), { expires: 14 })
+		}
 	}
 
 	async reset(): Promise<CartType> {
 		const response = await apiWithHeaders.delete<CartType>(this.endpoint)
 
 		return response.data
+	}
+
+	resetCookie() {
+		Cookies.remove(this.COOKIE_KEY)
 	}
 }
 

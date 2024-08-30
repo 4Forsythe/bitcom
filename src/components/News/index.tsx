@@ -6,11 +6,13 @@ import { BANNERS } from '../Banner/banners.data'
 import { Badge } from '../ui/Badge'
 import { Widget } from '../Widget'
 import { Banner } from '../Banner'
+import { Carousel } from '../Carousel'
 
 export const News = () => {
 	return (
 		<section className={styles.container}>
 			<div className={styles.inner}>
+				<Carousel />
 				<div className={styles.column}>
 					<Widget title='Покупайте у нас'>
 						<div className={styles.socials}>
@@ -50,12 +52,6 @@ export const News = () => {
 						</div>
 					</Widget>
 				</div>
-				{BANNERS.map((item, index) => (
-					<Banner
-						key={index}
-						{...item}
-					/>
-				))}
 			</div>
 		</section>
 	)

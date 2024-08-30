@@ -1,13 +1,13 @@
 .container {
 	@apply px-3.5 gap-5 flex justify-between;
 	.list {
-		@apply mb-7 grow;
+		@apply mb-7 flex flex-col grow;
 		.items {
 			@apply gap-4 flex flex-col;
 		}
 	}
-	.side {
-		@apply w-[350px] h-fit top-[144px] sticky;
+	.sidebar {
+		@apply w-[350px] h-fit top-[120px] sticky;
 		.block {
 			@apply mb-5 px-4 pt-4 pb-5 gap-5 flex flex-col bg-zinc-50 rounded-lg shadow-sm;
 			.summary {
@@ -38,7 +38,10 @@
 @media (max-width: 1024px) {
 	.container {
 		@apply gap-2.5 flex-col;
-		.side {
+		.list {
+			@apply mb-4;
+		}
+		.sidebar {
 			@apply w-full;
 		}
 	}

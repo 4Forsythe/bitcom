@@ -15,14 +15,14 @@
 			@apply mb-5 text-zinc-500;
 		}
 		.controls {
-			@apply gap-3 inline-flex items-center;
+			@apply gap-3 inline-flex items-center max-sm:flex-col-reverse;
 		}
 	}
 }
 
 @media (max-width: 768px) {
 	.container {
-		@apply py-3.5;
+		@apply py-8;
 		.block {
 			.emoji {
 				@apply mb-3.5 text-6xl;
@@ -35,15 +35,6 @@
 		.block {
 			.emoji {
 				@apply mb-3.5 text-5xl;
-			}
-		}
-	}
-}
-@media (max-width: 370px) {
-	.container {
-		.block {
-			.controls {
-				@apply flex-col-reverse;
 			}
 		}
 	}

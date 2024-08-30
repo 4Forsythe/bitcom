@@ -16,7 +16,9 @@ export async function middleware(request: NextRequest) {
 		return NextResponse.next()
 	}
 
-	const isProtectedRoute = ['/my'].some((path) => url.includes(path))
+	const isProtectedRoute = ['/my', '/cart', '/wish-list'].some((path) =>
+		url.includes(path)
+	)
 	const isPrivateRoute = ['/write', '/my/articles'].some((path) =>
 		url.includes(path)
 	)
@@ -55,5 +57,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ['/my/:path*', '/write/:path*', '/:path*']
+	matcher: [
+		'/my/:path*',
+		'/cart/:path*',
+		'/wish-list/:path*',
+		'/write/:path*',
+		'/:path*'
+	]
 }

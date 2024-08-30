@@ -27,7 +27,7 @@ export const Footer = () => {
 							))}
 							<li className={styles.marketplaces}>
 								<Link
-									className={styles.avito}
+									className={styles.market}
 									href='https://www.avito.ru/brands/bitcom63'
 									target='_blank'
 								>
@@ -92,7 +92,7 @@ export const Footer = () => {
 				</nav>
 				<div className={styles.copyright}>
 					<span className={styles.text}>
-						{new Date().getFullYear()} © ООО "БИТКОМ" — Все права защищены
+						{new Date().getFullYear()} © БИТКОМ — Все права защищены
 					</span>
 				</div>
 			</div>

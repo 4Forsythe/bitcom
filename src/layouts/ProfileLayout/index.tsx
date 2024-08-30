@@ -1,4 +1,4 @@
-import { ProfileSidebar } from '@/app/(page)/my/Profile/Sidebar'
+import { ProfileSidebar } from '@/app/(root)/my/Profile/Sidebar'
 
 import styles from './ProfileLayout.module.scss'
 

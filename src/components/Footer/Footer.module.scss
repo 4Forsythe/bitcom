@@ -12,19 +12,12 @@
 				.list {
 					@apply my-4 gap-3 flex flex-col;
 					.item {
-						@apply hover:text-zinc-300 transition-colors duration-200;
+						@apply text-sm hover:text-zinc-400 transition-colors duration-200;
 					}
 					.marketplaces {
-						@apply gap-1.5 flex items-center;
-						.avito {
-							@apply w-fit px-2 py-1.5 flex items-center justify-center bg-blue-200 rounded hover:bg-blue-100 active:bg-blue-300
-							transition-colors duration-300;
-							.image {
-								@apply w-auto h-[1.15rem];
-							}
-						}
+						@apply py-1.5 gap-1.5 flex items-center;
 						.market {
-							@apply w-fit px-2 py-1.5 flex items-center justify-center bg-yellow-200 rounded hover:bg-yellow-100 active:bg-yellow-300
+							@apply w-fit px-2 py-1.5 flex items-center justify-center bg-zinc-200 rounded-lg hover:bg-neutral-200/80
 							transition-colors duration-300;
 							.image {
 								@apply w-auto h-[1.15rem];

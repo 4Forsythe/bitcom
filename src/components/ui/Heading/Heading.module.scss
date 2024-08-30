@@ -1,9 +1,9 @@
 .container {
-	@apply my-5 px-3 inline-flex items-center;
+	@apply mb-5 px-3.5 inline-flex items-center;
 	.control {
-		@apply mr-3.5 p-1.5 border border-zinc-200 text-zinc-400 bg-zinc-100 rounded-lg hover:text-zinc-700 hover:bg-zinc-50 transition-colors duration-300;
+		@apply mr-2.5 p-1.5 border border-zinc-300 text-zinc-500 bg-zinc-200 rounded-md hover:bg-zinc-100 transition-colors duration-300;
 		.icon {
-			@apply w-auto h-8;
+			@apply w-auto h-6;
 		}
 	}
 	.title {
@@ -20,9 +20,9 @@
 }
 @media (max-width: 460px) {
 	.container {
-		@apply my-1.5;
+		@apply mb-3.5;
 		.title {
-			@apply my-2.5 text-2xl;
+			@apply text-2xl;
 		}
 	}
 }

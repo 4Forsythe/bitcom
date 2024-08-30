@@ -3,7 +3,7 @@
 import { Sort } from '@/components/Sort'
 import { Filters } from '@/components/Filters'
 import { SearchBar } from '@/components/SearchBar'
-import { ProductCard } from '@/app/(section)/product/[id]/ProductCard'
+import { ProductCard } from '@/app/(wide)/product/[id]/ProductCard'
 import { EmptyBlock } from '@/components/EmptyBlock'
 import { Pagination } from '@/components/ui/Pagination'
 

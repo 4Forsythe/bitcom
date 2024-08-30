@@ -1,0 +1,30 @@
+.container {
+	@apply gap-4 flex flex-wrap justify-center;
+	.card {
+		@apply w-[294px] grid grid-rows-[auto,1fr] items-center text-center bg-zinc-50 rounded-xl shadow-md
+    hover:shadow-lg transition-all duration-200;
+		&:hover {
+			.title {
+				@apply text-red-500;
+			}
+		}
+		.cover {
+			@apply w-full h-[150px] mb-3 flex items-center justify-center rounded-lg overflow-hidden hover:*:scale-110;
+			.image {
+				@apply w-full h-full object-cover transition-transform duration-300;
+			}
+		}
+		.title {
+			@apply p-4 font-bold transition-colors duration-200;
+		}
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		@apply gap-3.5;
+		.card {
+			@apply w-[234px];
+		}
+	}
+}

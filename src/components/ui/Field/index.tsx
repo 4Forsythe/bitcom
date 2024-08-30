@@ -13,7 +13,7 @@ interface IField extends React.InputHTMLAttributes<HTMLInputElement> {
 	extra?: string
 	variant?: 'contained' | 'outlined'
 	error?: string
-	type?: 'number' | 'text' | 'password'
+	type?: 'number' | 'text' | 'tel' | 'password'
 	isLoading?: boolean
 	placeholder?: string
 }

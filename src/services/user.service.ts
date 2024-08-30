@@ -21,6 +21,14 @@ class UserService {
 		}
 	}
 
+	async getByEmail(params: { email: string }) {
+		const response = await api.get<UserType>(this.endpoint, {
+			params
+		})
+
+		return response.data
+	}
+
 	async update(data: UserFormType) {
 		const response = await apiWithHeaders.patch<UserType>(
 			`${this.endpoint}/me`,

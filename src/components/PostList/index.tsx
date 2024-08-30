@@ -2,7 +2,7 @@
 
 import { Filters } from '@/components/Filters'
 import { Sort } from '@/components/Sort'
-import { PostCard } from '@/app/(page)/blog/[id]/PostCard'
+import { PostCard } from '@/app/(root)/blog/[id]/PostCard'
 import { Pagination } from '@/components/ui/Pagination'
 import { EmptyBlock } from '@/components/EmptyBlock'
 

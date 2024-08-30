@@ -17,7 +17,11 @@ import { useModal } from '@/hooks/useModal'
 import { ROUTE } from '@/config/routes.config'
 import { formatPhone } from '@/utils/format-phone'
 
-import type { AuthFormType } from '@/types/auth.types'
+import type {
+	AuthFormType,
+	LoginFormType,
+	RegisterFormType
+} from '@/types/auth.types'
 
 import { authService } from '@/services/auth.service'
 
@@ -30,22 +34,17 @@ import { CooldownTimer } from '../ui/CooldownTimer'
 import { useUserStore } from '@/store/user.store'
 import { userService } from '@/services/user.service'
 import { useUpdateProfile } from '@/hooks/useUpdateProfile'
-
-enum AuthStage {
-	PHONE = 'Phone',
-	SMS_CODE = 'SMS Code',
-	PASSWORD = 'Password'
-}
+import { ErrorMessage } from '../ui/ErrorMessage'
 
 enum AuthMethod {
 	LOGIN = 'Login',
-	REGISTER = 'Register'
+	REGISTER = 'Register',
+	VERIFY = 'Verify'
 }
 
 export const AuthForm = () => {
 	const [cooldown, setCooldown] = React.useState(0)
-	const [stage, setStage] = React.useState<AuthStage>(AuthStage.PHONE)
-	const [method, setMethod] = React.useState<AuthMethod | null>(null)
+	const [method, setMethod] = React.useState<AuthMethod>(AuthMethod.LOGIN)
 
 	const queryClient = useQueryClient()
 
@@ -54,13 +53,11 @@ export const AuthForm = () => {
 
 	const {
 		register,
-		watch,
-		reset,
 		handleSubmit,
 		getValues,
 		control,
 		formState: { isValid, errors }
-	} = useForm<AuthFormType>({ mode: 'onSubmit' })
+	} = useForm<AuthFormType>({ mode: 'onChange' })
 
 	const {
 		mutate: mutateRegister,
@@ -69,26 +66,20 @@ export const AuthForm = () => {
 	} = useMutation({
 		mutationKey: ['register'],
 		mutationFn: (data: AuthFormType) => authService.register(data),
-		onSuccess: () => {
-			setMethod(AuthMethod.REGISTER)
-			setStage(AuthStage.SMS_CODE)
-		},
-		onError: (error) => {
-			const message = errorCatch(error) === 'Неверный формат номера телефона'
-
-			if (!message) {
-				setMethod(AuthMethod.LOGIN)
-				setStage(AuthStage.PASSWORD)
-			}
+		onSuccess: (response) => {
+			queryClient.invalidateQueries({ queryKey: ['profile'] })
+			setUser(response.data.user)
+			onClose()
 		}
 	})
 
-	const { mutate: mutateSending, isPending: isSendingPending } = useMutation({
+	const {
+		mutate: mutateSending,
+		isPending: isSendingPending,
+		error: sendingError
+	} = useMutation({
 		mutationKey: ['send code'],
-		mutationFn: (phone: string) =>
-			authService.verify({
-				phone
-			}),
+		mutationFn: (email: string) => authService.sendCode({ email }),
 		onError: (error) => {
 			const message = errorCatch(error)
 			if (message) {
@@ -99,7 +90,7 @@ export const AuthForm = () => {
 			}
 		},
 		onSuccess: () => {
-			setStage(AuthStage.SMS_CODE)
+			setMethod(AuthMethod.VERIFY)
 		}
 	})
 
@@ -110,69 +101,74 @@ export const AuthForm = () => {
 	} = useMutation({
 		mutationKey: ['login'],
 		mutationFn: (data: AuthFormType) => authService.login(data),
-		retry: 0,
 		onSuccess: (response) => {
 			queryClient.invalidateQueries({ queryKey: ['profile'] })
 			setUser(response.data.user)
-			if (method === AuthMethod.LOGIN) {
-				onClose()
-			} else {
-				setMethod(AuthMethod.REGISTER)
-				setStage(AuthStage.PASSWORD)
-			}
+			onClose()
 		}
 	})
 
-	const { mutate: mutateProfile } = useUpdateProfile()
+	const {
+		mutate: mutateVerify,
+		isPending: isVerifyPending,
+		error: verifyError
+	} = useMutation({
+		mutationKey: ['verify'],
+		mutationFn: (data: AuthFormType) =>
+			authService.verify({ email: data.email, code: Number(data.code) }),
+		onSuccess: (response) => {
+			queryClient.invalidateQueries({ queryKey: ['profile'] })
+			console.log('res', response.data)
+			setUser(response.data)
+			onClose()
+		}
+	})
 
-	const isPending = isRegisterPending || isSendingPending || isLoginPending
+	const isPending =
+		isRegisterPending || isLoginPending || isSendingPending || isVerifyPending
+
 	const loginErrorMessage = loginError ? errorCatch(loginError) : undefined
 	const registerErrorMessage = registerError
 		? errorCatch(registerError)
 		: undefined
-
-	console.log(registerErrorMessage)
+	const sendingErrorMessage = sendingError
+		? errorCatch(sendingError)
+		: undefined
 
 	const onSubmit: SubmitHandler<AuthFormType> = (data: AuthFormType) => {
-		const phone = data.phone.replace(/[^\d]/g, '')
-		const dto = { ...data, phone }
+		// const phone = data.phone.replace(/[^\d]/g, '')
+		// const dto = { ...data, phone }
 
-		if (stage === AuthStage.PHONE) {
-			mutateRegister({
-				phone: dto.phone
-			})
-		} else if (stage === AuthStage.SMS_CODE) {
+		if (method === AuthMethod.LOGIN) {
 			mutateLogin({
-				phone: dto.phone,
-				code: Number(dto.code)
+				email: data.email,
+				password: data.password
 			})
-		} else if (stage === AuthStage.PASSWORD) {
-			if (method === AuthMethod.LOGIN) {
-				mutateLogin({ phone: dto.phone, password: dto.password })
-			} else {
-				mutateProfile({ password: dto.password })
-				onClose()
-			}
 		}
-	}
 
-	const onResendCode = () => {
-		const phone = getValues().phone.replace(/[^\d]/g, '')
+		if (method === AuthMethod.REGISTER) {
+			mutateSending(data.email)
+		}
 
-		if (phone) {
-			mutateSending(phone)
+		if (method === AuthMethod.VERIFY) {
+			mutateRegister({
+				name: data.name,
+				code: Number(data.code),
+				email: data.email,
+				password: data.password
+			})
 		}
 	}
 
 	const onBack = () => {
-		if (stage === AuthStage.PASSWORD) {
-			setStage(AuthStage.PHONE)
-		} else if (stage === AuthStage.SMS_CODE) {
-			if (method === AuthMethod.LOGIN) {
-				setStage(AuthStage.PASSWORD)
-			} else {
-				setStage(AuthStage.PHONE)
-			}
+		if (method === AuthMethod.VERIFY) setMethod(AuthMethod.REGISTER)
+	}
+
+	const onResendCode = () => {
+		const email = getValues().email
+
+		if (email) {
+			mutateSending(email)
 		}
 	}
 
@@ -183,139 +179,201 @@ export const AuthForm = () => {
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<div className={styles.head}>
-					{stage === AuthStage.PHONE && (
+					{method !== AuthMethod.VERIFY && (
 						<>
 							<span className={styles.title}>Войти или</span>
 							<span className={styles.title}>зарегистрироваться</span>
 						</>
 					)}
-					{stage === AuthStage.SMS_CODE && (
+					{method === AuthMethod.VERIFY && (
 						<>
 							<span className={styles.title}>Введите код</span>
 							<span className={styles.title}>подтверждения</span>
 						</>
 					)}
-					{stage === AuthStage.PASSWORD && method === AuthMethod.LOGIN && (
-						<span className={styles.title}>Введите пароль</span>
-					)}
-					{stage === AuthStage.PASSWORD && method === AuthMethod.REGISTER && (
-						<span className={styles.title}>Придумайте пароль</span>
-					)}
 				</div>
-				<div className={styles.field}>
-					{stage === AuthStage.PHONE && (
-						<Controller
-							name='phone'
-							control={control}
-							rules={{
-								required: 'Это обязательное поле',
-								minLength: {
-									value: 16,
-									message: 'Неверный формат номера телефона'
-								},
-								pattern: {
-									value: /^8 \(\d{3}\) \d{3}-\d{4}$/,
-									message:
-										'Номер телефона должен быть в формате 8 (XXX) XXX-XXXX'
-								}
-							}}
-							render={({ field }) => (
-								<Field
-									{...field}
-									id='phone'
-									className={styles.input}
-									error={
-										errors?.phone?.message ||
-										(registerErrorMessage ?? registerErrorMessage)
-									}
-									onChange={(e) => field.onChange(formatPhone(e.target.value))}
-									type='text'
-									autoComplete='off'
-									placeholder='Введите номер телефона'
-								/>
+				<div className={styles.inner}>
+					{method === AuthMethod.LOGIN && (
+						<>
+							{loginErrorMessage && (
+								<ErrorMessage>{loginErrorMessage}</ErrorMessage>
 							)}
-						/>
+							<div className={styles.fields}>
+								<Field
+									id='email'
+									className={styles.input}
+									error={errors?.email?.message}
+									type='text'
+									placeholder='Электронная почта'
+									{...register('email', {
+										required: 'Это обязательное поле',
+										pattern: {
+											value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+											message: 'Неправильный формат эл. почты'
+										}
+									})}
+								/>
+								<Field
+									id='password'
+									className={styles.input}
+									error={errors?.password?.message}
+									type='password'
+									placeholder='Пароль (обязательно)'
+									{...register('password', {
+										required: 'Это обязательное поле',
+										minLength: {
+											value: 5,
+											message: 'Слишком короткий пароль'
+										},
+										maxLength: {
+											value: 32,
+											message: 'Слишком длинный пароль'
+										}
+									})}
+								/>
+							</div>
+						</>
 					)}
-					{stage === AuthStage.SMS_CODE && (
-						<Field
-							id='code'
-							className={styles.input}
-							type='number'
-							maxLength={6}
-							autoComplete='off'
-							placeholder='Введите код из СМС'
-							error={
-								errors?.code?.message ||
-								(loginErrorMessage ?? loginErrorMessage)
-							}
-							{...register('code', {
-								required: false,
-								minLength: {
-									value: 6,
-									message: 'Длина кода - 6 символов'
-								},
-								maxLength: {
-									value: 6,
-									message: 'Длина кода - 6 символов'
-								}
-							})}
-						/>
+					{method === AuthMethod.REGISTER && (
+						<div className={styles.fields}>
+							{sendingErrorMessage && (
+								<ErrorMessage>{sendingErrorMessage}</ErrorMessage>
+							)}
+							<Field
+								id='name'
+								className={styles.input}
+								error={errors?.name?.message}
+								type='text'
+								placeholder='Имя (необязательно)'
+								{...register('name', {
+									required: false,
+									maxLength: {
+										value: 48,
+										message: 'Слишком длинное имя'
+									}
+								})}
+							/>
+							<Field
+								id='email'
+								className={styles.input}
+								error={errors?.email?.message}
+								type='text'
+								placeholder='Электронная почта'
+								{...register('email', {
+									required: 'Это обязательное поле',
+									pattern: {
+										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+										message: 'Неправильный формат эл. почты'
+									}
+								})}
+							/>
+							<Field
+								id='password'
+								className={styles.input}
+								error={errors?.password?.message}
+								type='password'
+								placeholder='Пароль (обязательно)'
+								{...register('password', {
+									required: 'Это обязательное поле',
+									minLength: {
+										value: 5,
+										message: 'Слишком короткий пароль'
+									},
+									maxLength: {
+										value: 32,
+										message: 'Слишком длинный пароль'
+									}
+								})}
+							/>
+						</div>
 					)}
-					{stage === AuthStage.PASSWORD && (
-						<Field
-							id='password'
-							className={styles.input}
-							type='password'
-							maxLength={32}
-							autoComplete='off'
-							placeholder={
-								method === AuthMethod.REGISTER
-									? 'Придумайте пароль'
-									: 'Введите пароль'
-							}
-							error={errors?.password?.message || loginErrorMessage}
-							{...register('password', {
-								required: false,
-								minLength: {
-									value: 6,
-									message: 'Мин. длина пароля - 6 символов'
-								},
-								maxLength: {
-									value: 32,
-									message: 'Макс. длина пароля - 32 символа'
-								}
-							})}
-						/>
+					{method === AuthMethod.VERIFY && (
+						<div className={styles.fields}>
+							{registerErrorMessage && (
+								<ErrorMessage>{registerErrorMessage}</ErrorMessage>
+							)}
+							<span className={styles.text}>
+								Проверьте письмо на почтовом ящике {getValues().email}.
+							</span>
+							<Field
+								id='code'
+								className={styles.input}
+								type='number'
+								maxLength={6}
+								autoComplete='off'
+								placeholder='Введите код из письма'
+								error={errors?.code?.message}
+								{...register('code', {
+									required: true,
+									minLength: {
+										value: 6,
+										message: 'Длина кода - 6 символов'
+									},
+									maxLength: {
+										value: 6,
+										message: 'Длина кода - 6 символов'
+									}
+								})}
+							/>
+						</div>
 					)}
 				</div>
 				<div className={styles.buttons}>
 					<Button
 						type='submit'
-						disabled={isPending}
+						isLoading={isPending}
 					>
-						{stage === AuthStage.SMS_CODE ? 'Подтвердить код' : 'Войти'}
+						{method === AuthMethod.VERIFY
+							? 'Подтвердить'
+							: method === AuthMethod.REGISTER
+								? 'Зарегистрироваться'
+								: 'Войти'}
 					</Button>
+					{method === AuthMethod.LOGIN && (
+						<Button
+							type='button'
+							variant='outlined'
+							onClick={() => setMethod(AuthMethod.REGISTER)}
+							isLoading={isPending}
+						>
+							Зарегистрироваться
+						</Button>
+					)}
+					{method === AuthMethod.REGISTER && (
+						<Button
+							type='button'
+							variant='outlined'
+							onClick={() => setMethod(AuthMethod.LOGIN)}
+							isLoading={isPending}
+						>
+							Войти
+						</Button>
+					)}
 					{cooldown > 0 && (
 						<CooldownTimer
 							seconds={cooldown}
 							onEnd={() => setCooldown(0)}
 						/>
 					)}
-					{!cooldown && stage === AuthStage.SMS_CODE && (
+					{!cooldown && method === AuthMethod.VERIFY && (
 						<Button
 							type='button'
 							variant='outlined'
-							disabled={isPending}
 							onClick={onResendCode}
+							isLoading={isPending}
 						>
-							Получить код еще раз
+							Отправить еще раз
 						</Button>
 					)}
 				</div>
 				<p className={styles.policy}>
 					Нажимая кнопку{' '}
-					{stage === AuthStage.PHONE ? '"Войти"' : '"Подтвердить код"'}, Вы
-					соглашаетесь с условиями{' '}
+					{method === AuthMethod.REGISTER
+						? '"Зарегистрироваться"'
+						: method === AuthMethod.LOGIN
+							? '"Войти"'
+							: '"Подтвердить код"'}
+					, Вы соглашаетесь с условиями{' '}
 					<Link
 						className={styles.link}
 						href={ROUTE.POLICIES}
@@ -326,7 +384,7 @@ export const AuthForm = () => {
 				</p>
 			</form>
 			<div className={styles.controls}>
-				{stage === AuthStage.SMS_CODE && (
+				{method === AuthMethod.VERIFY && (
 					<button
 						className={styles.control}
 						onClick={onBack}

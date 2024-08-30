@@ -7,7 +7,7 @@ html {
 }
 
 body {
-	@apply w-full h-full flex flex-col font-pt-sans text-zinc-700 bg-zinc-200/70 overflow-x-hidden scrollbar-thin scrollbar-thumb-zinc-400 scrollbar-track-zinc-200;
+	@apply w-full h-full flex flex-col font-pt-sans text-zinc-700 bg-zinc-300/55 overflow-x-hidden scrollbar-thin scrollbar-thumb-zinc-400 scrollbar-track-zinc-200;
 }
 
 .container {
@@ -16,6 +16,10 @@ body {
 
 .main {
 	@apply py-3.5 flex flex-col grow;
+}
+
+.swiper-navigation-prev {
+	@apply text-xl;
 }
 
 .animate-opacity {

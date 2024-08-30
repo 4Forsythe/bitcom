@@ -10,7 +10,7 @@
 			transition-colors duration-200;
 		}
 		&.outlined {
-			@apply text-zinc-600 bg-zinc-300 hover:bg-zinc-300/80 active:bg-zinc-300
+			@apply text-zinc-700 bg-zinc-300/70 hover:bg-zinc-300/90 active:bg-zinc-300
 			transition-colors duration-200;
 		}
 		&.loaded {

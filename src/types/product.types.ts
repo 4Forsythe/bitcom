@@ -1,6 +1,7 @@
 export type ProductCharacteristicType = {
 	id: string
 	name: string
+	imageUrl?: string
 }
 
 export type ProductCharacteristicsType = {

@@ -19,75 +19,42 @@ import {
 	SECOND_EMAIL,
 	SECOND_PHONE
 } from '@/constants/contacts.constants'
-import { cartService } from '@/services/cart.service'
+import { OrderForm } from '@/components/OrderForm'
+import Link from 'next/link'
+import { ROUTE } from '@/config/routes.config'
+import { FormProvider, useForm } from 'react-hook-form'
+import { OrderFormType } from '@/types/order.types'
+import { Sidebar } from './Sidebar'
 
 export const Cart = () => {
 	const { data, isLoading } = useCart()
 
-	React.useEffect(() => {
-		console.log(cartService.getCookie())
-	}, [])
+	const methods = useForm<OrderFormType>({ mode: 'onChange' })
 
 	return (
-		<div className={styles.container}>
-			<div className={styles.list}>
-				<div className={styles.items}>
-					{isLoading
-						? [...new Array(2)].map((item, index) => <Skeleton key={index} />)
-						: data?.items.map((item) => (
-								<CartItem
-									key={item.id}
-									{...item}
-								/>
-							))}
-				</div>
-				{data?.items && data.items.length === 0 && (
-					<EmptyBlock
-						title='Похоже, в вашей корзине ничего нет'
-						description='Вы можете найти нужный товар в каталоге или через поиск'
-					/>
-				)}
-			</div>
-			<div className={styles.side}>
-				<div className={clsx(styles.block, 'animate-opacity')}>
-					<div className={styles.summary}>
-						<div className={styles.amount}>
-							<span className={styles.total}>Итого</span>
-							<span className={styles.text}>
-								{data?.count
-									? calcNounDeclension(
-											data?.count,
-											'товар',
-											'товара',
-											'товаров'
-										)
-									: 'Нет товаров'}
-							</span>
-						</div>
-						<span className={styles.text}>{data?.total || 0} ₽</span>
+		<FormProvider {...methods}>
+			<div className={styles.container}>
+				<div className={styles.list}>
+					<div className={styles.items}>
+						{isLoading
+							? [...new Array(2)].map((item, index) => <Skeleton key={index} />)
+							: data?.items.map((item) => (
+									<CartItem
+										key={item.id}
+										{...item}
+									/>
+								))}
 					</div>
-					<Button
-						className={styles.action}
-						variant='outlined'
-						disabled
-					>
-						Начать оформление
-					</Button>
+					{data?.items && data.items.length === 0 && (
+						<EmptyBlock
+							title='Похоже, в вашей корзине ничего нет'
+							description='Вы можете найти нужный товар в каталоге или через поиск'
+						/>
+					)}
+					{data?.items && data.items.length > 0 && <OrderForm />}
 				</div>
-				<div className={styles.danger}>
-					<span className={styles.text}>
-						К сожалению, в данный момент у нас отсутствует возможность
-						онлайн-оформления заказа.
-						<br />
-						Пожалуйста, обращайтесь к нам на линию:
-						<br />
-						{PHONE} или {SECOND_PHONE}.
-						<br />
-						Вы также можете написать нам на почту: {EMAIL} или
-						{SECOND_EMAIL}.
-					</span>
-				</div>
+				<Sidebar />
 			</div>
-		</div>
+		</FormProvider>
 	)
 }
