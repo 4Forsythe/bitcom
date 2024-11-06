@@ -1,3 +1,7 @@
+import { z } from 'zod'
+
+import { loginSchema, registerSchema, verifySchema } from '@/schemas'
+
 import type { UserType } from './user.types'
 
 export type AuthType = {
@@ -5,21 +9,6 @@ export type AuthType = {
 	accessToken: string
 }
 
-export type AuthFormType = {
-	name?: string
-	email: string
-	code?: number
-	password?: string
-}
-
-export type LoginFormType = {
-	email: string
-	password: string
-}
-
-export type RegisterFormType = {
-	name?: string
-	code: number
-	email: string
-	password: string
-}
+export type LoginFormType = z.infer<typeof loginSchema>
+export type RegisterFormType = z.infer<typeof registerSchema>
+export type VerifyFormType = z.infer<typeof verifySchema>

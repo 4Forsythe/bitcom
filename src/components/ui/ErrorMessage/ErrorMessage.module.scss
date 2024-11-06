@@ -1,6 +1,6 @@
 .container {
-	@apply w-fit mb-1.5 px-3 py-[0.25rem] inline-flex border border-red-400 bg-red-100 rounded-md;
+	@apply w-fit my-1 px-1.5 inline-flex;
 	.text {
-		@apply text-sm text-red-700;
+		@apply text-sm font-medium text-red-600;
 	}
 }

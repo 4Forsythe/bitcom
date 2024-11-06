@@ -1,4 +1,4 @@
-type CarouselSlideType = {
+export type CarouselSlideType = {
 	id: string
 	tag: string
 	imageUrl: string
@@ -8,11 +8,16 @@ export const SLIDES: CarouselSlideType[] = [
 	{
 		id: '1',
 		tag: 'Первый слайд',
-		imageUrl: 'http://192.168.1.200/public/static/images/categories/001.jpg'
+		imageUrl: `/static/banner/1.jpg`
 	},
 	{
 		id: '2',
 		tag: 'Второй слайд',
-		imageUrl: 'http://192.168.1.200/public/static/images/categories/001.jpg'
+		imageUrl: `/static/banner/2.jpg`
 	}
+	// {
+	// 	id: '3',
+	// 	tag: 'Третий слайд',
+	// 	imageUrl: `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/static/product-categories/images/003.jpg`
+	// }
 ]

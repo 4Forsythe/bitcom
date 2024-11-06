@@ -1,43 +1,76 @@
 'use client'
 
-import { Sort } from '@/components/Sort'
-import { Filters } from '@/components/Filters'
-import { SearchBar } from '@/components/SearchBar'
-import { ProductCard } from '@/app/(wide)/product/[id]/ProductCard'
-import { EmptyBlock } from '@/components/EmptyBlock'
-import { Pagination } from '@/components/ui/Pagination'
+import React from 'react'
 
-import { ProductsType } from '@/types/product.types'
+import {
+	SearchBar,
+	ProductCard,
+	EmptyBlock,
+	Pagination,
+	ProductFilters,
+	ProductSortBar
+} from '@/components'
+
 import { useWindowSize } from '@/hooks/useWindowSize'
 
-import styles from './ProductList.module.scss'
+import type { ProductsType } from '@/types/product.types'
 
-export const ProductList = ({ products }: { products: ProductsType }) => {
+import styles from './product-list.module.scss'
+import { ListViewButton } from '../ui/ListViewButton'
+import clsx from 'clsx'
+
+export enum ListView {
+	TILE = 'tile',
+	SIMPLE = 'simple'
+}
+
+export const ProductList: React.FC<ProductsType> = ({ items, count }) => {
+	const [view, setView] = React.useState<ListView>(ListView.SIMPLE)
+
 	const { width } = useWindowSize()
-
 	const isTablet = width && width <= 1024
+
+	const onChangeView = (mode: ListView) => {
+		setView(mode)
+	}
 
 	return (
 		<div className={styles.container}>
-			<aside className={styles.sidebar}>{!isTablet && <Filters />}</aside>
+			<aside className={styles.sidebar}>
+				{!isTablet && <ProductFilters />}
+			</aside>
 			<div className={styles.inner}>
 				<div className={styles.search}>
-					<SearchBar />
+					<SearchBar variant='contained' />
 				</div>
-				<Sort isProducts />
-				<div className={styles.list}>
-					{products.items && products.items.length > 0 ? (
-						products.items.map((product) => (
+				<div className='gap-3.5 flex items-center'>
+					<ProductSortBar className='flex-1' />
+					<ListViewButton
+						view={view}
+						onChange={onChangeView}
+					/>
+				</div>
+				{items.length > 0 && (
+					<div
+						className={clsx(styles.list, {
+							[styles.vertical]: view === ListView.SIMPLE,
+							[styles.horizontal]: view === ListView.TILE
+						})}
+					>
+						{items.map((item) => (
 							<ProductCard
-								{...product}
-								key={product.id}
+								key={item.id}
+								variant={view}
+								{...item}
 							/>
-						))
-					) : (
+						))}
+					</div>
+				)}
+				{!items ||
+					(items.length === 0 && (
 						<EmptyBlock title='К сожалению, товары не были найдены на нашем складе. Очень скоро мы это исправим!' />
-					)}
-				</div>
-				{products.items.length > 0 && <Pagination total={products.count} />}
+					))}
+				{items.length > 0 && <Pagination total={count} />}
 			</div>
 		</div>
 	)

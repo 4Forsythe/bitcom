@@ -1,9 +1,9 @@
 .roof {
-	@apply pt-4 bg-zinc-50;
+	@apply pt-4 z-50 bg-zinc-50;
 	.information {
-		@apply max-w-[1280px] w-full mx-auto my-0 px-2.5 gap-3.5 flex items-center;
+		@apply max-w-[1280px] w-full mx-auto my-0 px-2.5 gap-2.5 flex items-center;
 		.link {
-			@apply px-2 py-1 gap-1 flex items-center bg-zinc-200/50 font-medium outline-none rounded-md hover:text-zinc-50 hover:bg-zinc-700
+			@apply px-2.5 py-1 gap-1 flex items-center bg-zinc-200/50 font-medium outline-none rounded-xl hover:text-zinc-50 hover:bg-zinc-600
 			transition-all duration-300;
 			.icon {
 				@apply w-auto h-4 text-red-400;
@@ -12,25 +12,19 @@
 	}
 }
 .container {
-	@apply w-full top-0 mb-6 py-2 z-40 bg-zinc-50 border-b border-zinc-200 shadow sticky;
+	@apply w-full top-0 mb-5 py-2 z-50 bg-zinc-50 border-b border-zinc-200 shadow-lg shadow-zinc-200/50 sticky;
 	.inner {
 		@apply max-w-[1280px] mx-auto my-0 px-2.5 gap-2 flex flex-col;
 		.menu {
-			@apply h-20 pt-1.5 gap-3.5 flex items-center;
+			@apply h-20 pt-1.5 gap-7 flex items-center;
 			.logotype {
 				@apply outline-none select-none;
 				.image {
-					@apply w-60 h-auto;
+					@apply w-52 h-auto;
 				}
 			}
 			.bar {
 				@apply h-full flex items-center justify-center grow;
-			}
-			.controls {
-				@apply gap-1.5 flex items-center;
-				.search {
-					@apply hidden;
-				}
 			}
 		}
 	}
@@ -49,11 +43,6 @@
 				@apply justify-center;
 				.bar {
 					@apply hidden;
-				}
-				.controls {
-					.search {
-						@apply block;
-					}
 				}
 			}
 		}

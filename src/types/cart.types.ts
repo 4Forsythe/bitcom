@@ -9,7 +9,7 @@ export type CartItemType = {
 
 export type CartItemFormType = {
 	productId: string
-	count: number
+	count?: number
 }
 
 export type CartType = {

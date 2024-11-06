@@ -1,10 +1,10 @@
-type SocialType = {
+type SocialsType = {
 	tag: string
 	href: string
 	imageUrl: string
 }
 
-export const SOCIALS: SocialType[] = [
+export const SOCIALS: SocialsType[] = [
 	{
 		tag: 'Telegram',
 		href: 'https://t.me/bitcom63',
@@ -19,5 +19,10 @@ export const SOCIALS: SocialType[] = [
 		tag: 'YouTube',
 		href: 'https://youtube.com/@bitcom63',
 		imageUrl: '/icons/YouTube.svg'
+	},
+	{
+		tag: 'Яндекс.Дзен',
+		href: 'https://dzen.ru/bitcom63',
+		imageUrl: '/icons/Yandex.Dzen.svg'
 	}
 ]

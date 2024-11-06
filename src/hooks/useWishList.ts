@@ -4,21 +4,26 @@ import React from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 
-import { useUserStore } from '@/store/user.store'
-import { wishListService } from '@/services/wish-list.service'
+import { useWishlistStore } from '@/store/wishlist'
+import { wishlistService } from '@/services/wishlist.service'
 
-export function useWishList() {
-	const { setWishList } = useUserStore()
+export function useWishlist() {
+	const { setWishlist } = useWishlistStore()
 
 	const { data, isLoading, isSuccess, isError } = useQuery({
-		queryKey: ['wish-list'],
-		queryFn: () => wishListService.getAll(),
+		queryKey: ['wishlist'],
+		queryFn: () => wishlistService.getAll(),
 		retry: 0
 	})
 
 	React.useEffect(() => {
-		if (isSuccess) setWishList(data)
+		if (isSuccess) setWishlist(data)
 	}, [isSuccess])
 
-	return { data, isLoading, isSuccess, isError }
+	return {
+		wishlist: data,
+		isWishlistLoading: isLoading,
+		isWishlistSuccess: isSuccess,
+		isWishlistError: isError
+	}
 }

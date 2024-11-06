@@ -1,45 +1,38 @@
-'use client'
+import React from 'react'
 
-import { Filters } from '@/components/Filters'
-import { Sort } from '@/components/Sort'
-import { PostCard } from '@/app/(root)/blog/[id]/PostCard'
-import { Pagination } from '@/components/ui/Pagination'
-import { EmptyBlock } from '@/components/EmptyBlock'
+import {
+	SearchBar,
+	Pagination,
+	PostCard,
+	EmptyBlock,
+	PostSortBar
+} from '@/components'
 
-import type { PostsType } from '@/types/post.types'
+import type { PostType } from '@/types/post.types'
 
-import styles from './PostList.module.scss'
-import { PostFilters } from '../PostFilters'
-import { SearchBar } from '../SearchBar'
+import styles from './post-list.module.scss'
 
-interface PostListProps {
-	posts: PostsType
+interface IPostList {
+	items: PostType[]
 }
 
-export const PostList = ({ posts }: PostListProps) => {
+export const PostList: React.FC<IPostList> = ({ items }) => {
 	return (
 		<div className={styles.container}>
-			<aside className={styles.sidebar}>
-				<PostFilters />
-			</aside>
 			<div className={styles.inner}>
-				<div className={styles.search}>
-					<SearchBar />
-				</div>
-				<Sort />
 				<div className={styles.list}>
-					{posts.items.length ? (
-						posts.items.map((post) => (
+					{items.length > 0 ? (
+						items.map((item) => (
 							<PostCard
-								key={post.id}
-								{...post}
+								key={item.slug}
+								{...item}
 							/>
 						))
 					) : (
-						<EmptyBlock title='К сожалению, статьи выбранной вами категории не были найдены. В скором времени мы обязательно что-нибудь напишем!' />
+						<EmptyBlock title='К сожалению, ни одна статья не найдена. В скором времени мы обязательно что-нибудь напишем!' />
 					)}
 				</div>
-				{posts.items.length > 0 && <Pagination total={posts.count} />}
+				{items.length > 0 && <Pagination total={items.length} />}
 			</div>
 		</div>
 	)

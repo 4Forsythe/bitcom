@@ -2,22 +2,27 @@
 
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 
-import { useUserStore } from '@/store/user.store'
+import { useCartStore } from '@/store/cart'
 import { cartService } from '@/services/cart.service'
 
 export function useDeleteCart() {
 	const queryClient = useQueryClient()
 
-	const { getCartCount } = useUserStore()
+	const { setCart } = useCartStore()
 
-	const { mutate, isPending, isSuccess } = useMutation({
+	const { mutate, isPending, isSuccess, isError } = useMutation({
 		mutationKey: ['delete cart'],
-		mutationFn: (id: string) => cartService.remove(id),
-		onSuccess: () => {
+		mutationFn: () => cartService.clear(),
+		onSuccess: (response) => {
 			queryClient.invalidateQueries({ queryKey: ['cart'] })
-			getCartCount()
+			setCart(response)
 		}
 	})
 
-	return { mutate, isPending, isSuccess }
+	return {
+		deleteCart: mutate,
+		isDeleteCartPending: isPending,
+		isDeleteCartSuccess: isSuccess,
+		isDeleteCartError: isError
+	}
 }

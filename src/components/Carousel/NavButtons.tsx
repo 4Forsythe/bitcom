@@ -7,7 +7,7 @@ import styles from './Carousel.module.scss'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import clsx from 'clsx'
 
-export const NavButton = () => {
+export const NavButtons = () => {
 	const swiper = useSwiper()
 
 	return (

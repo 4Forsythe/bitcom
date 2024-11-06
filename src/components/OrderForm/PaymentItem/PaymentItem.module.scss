@@ -1,9 +1,0 @@
-.container {
-	@apply w-full p-5 flex items-center justify-center border-2 border-red-500 bg-zinc-100/80 rounded-lg cursor-pointer overflow-hidden;
-	.cover {
-		@apply w-auto h-[35px] flex items-center justify-center overflow-hidden;
-		.image {
-			@apply w-auto h-full object-cover;
-		}
-	}
-}

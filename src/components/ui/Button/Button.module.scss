@@ -1,10 +1,7 @@
 .container {
 	@apply gap-2.5 flex flex-col;
-	.element {
-		@apply px-7 py-2.5 gap-1.5 inline-flex items-center justify-center font-bold rounded-md relative;
-		&:disabled {
-			@apply opacity-80 pointer-events-none;
-		}
+	.variant {
+		@apply px-7 py-2.5 gap-1.5 flex flex-1 items-center justify-center font-semibold rounded-md relative;
 		&.contained {
 			@apply text-zinc-200 bg-red-600/90 hover:bg-red-700/90 active:bg-red-600/90
 			transition-colors duration-200;
@@ -13,7 +10,11 @@
 			@apply text-zinc-700 bg-zinc-300/70 hover:bg-zinc-300/90 active:bg-zinc-300
 			transition-colors duration-200;
 		}
-		&.loaded {
+		&.transparent {
+			@apply text-zinc-700 bg-zinc-100/70 hover:bg-zinc-200/70 active:bg-zinc-200
+			transition-colors duration-200;
+		}
+		&.loading {
 			@apply opacity-80 text-transparent animate-pulse;
 			.loader {
 				@apply w-auto h-5 text-zinc-500 absolute animate-spin;
@@ -29,14 +30,11 @@
 				}
 			}
 		}
+		&:disabled {
+			@apply opacity-80 pointer-events-none;
+		}
 	}
-	.message {
-		@apply w-fit px-2.5 py-0.5 gap-0.5 inline-flex items-center text-sm text-zinc-500 bg-zinc-300 rounded-md;
-		&.error {
-			@apply text-red-600 bg-red-100;
-		}
-		.icon {
-			@apply w-auto h-3;
-		}
+	.error {
+		@apply w-fit px-2.5 py-0.5 gap-0.5 inline-flex items-center text-sm text-red-600 bg-red-100 rounded-md;
 	}
 }

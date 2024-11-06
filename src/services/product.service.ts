@@ -14,13 +14,29 @@ class ProductService {
 		return response.data
 	}
 
+	async getSimilar(
+		id: string,
+		params?: { take: number }
+	): Promise<ProductsType> {
+		const response = await api.get<ProductsType>(
+			`${this.endpoint}/similar/${id}`,
+			{ params }
+		)
+		return response.data
+	}
+
 	async getByIds(ids: string[]): Promise<ProductsType> {
-		const response = await api.post(this.endpoint, { ids })
+		const response = await api.post<ProductsType>(this.endpoint, { ids })
 		return response.data
 	}
 
 	async getOne(id: string): Promise<ProductType> {
-		const response = await api.get(`${this.endpoint}/${id}`)
+		const response = await api.get<ProductType>(`${this.endpoint}/${id}`)
+		return response.data
+	}
+
+	async getTotal(): Promise<number> {
+		const response = await api.get<number>(`${this.endpoint}/total`)
 		return response.data
 	}
 }

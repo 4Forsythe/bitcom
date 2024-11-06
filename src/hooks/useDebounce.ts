@@ -1,9 +1,5 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
-
-import { productService } from '@/services/product.service'
-import type { ProductParamsType } from '@/types/product.types'
 import React from 'react'
 import debounce from 'lodash.debounce'
 
@@ -12,7 +8,7 @@ interface UseDebounceProps {
 	delay: number
 }
 
-export function useDebounce({ value, delay }: UseDebounceProps) {
+export const useDebounce = ({ value, delay }: UseDebounceProps) => {
 	const [query, setQuery] = React.useState(value)
 
 	const onDebounce = React.useCallback(

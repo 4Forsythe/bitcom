@@ -2,9 +2,9 @@
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-import type { AuthFormType } from '@/types/auth.types'
+import type { LoginFormType } from '@/types/auth.types'
 import { authService } from '@/services/auth.service'
-import { useUserStore } from '@/store/user.store'
+import { useUserStore } from '@/store/user'
 
 export function useLogin() {
 	const queryClient = useQueryClient()
@@ -13,7 +13,7 @@ export function useLogin() {
 
 	const { mutate, isPending, isError, error } = useMutation({
 		mutationKey: ['login'],
-		mutationFn: (data: AuthFormType) => authService.login(data),
+		mutationFn: (data: LoginFormType) => authService.login(data),
 		retry: 0,
 		onSuccess: (response) => {
 			queryClient.invalidateQueries({ queryKey: ['profile'] })

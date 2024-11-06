@@ -13,11 +13,13 @@ class DeviceService {
 		params?: ProductCharacteristicParamsType
 	): Promise<ProductCharacteristicsType> {
 		const response = await api.get(this.endpoint, { params })
+
 		return response.data
 	}
 
 	async getOne(id: string): Promise<ProductCharacteristicType> {
 		const response = await api.get(`${this.endpoint}/${id}`)
+
 		return response.data
 	}
 }

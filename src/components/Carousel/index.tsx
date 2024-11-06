@@ -1,50 +1,69 @@
 'use client'
 
-import { Swiper, SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/react'
-import styles from './Carousel.module.scss'
-import { SLIDES } from './carousel.data'
-import Image from 'next/image'
-
-import { NavButton } from './NavButtons'
-
 import SwiperCore from 'swiper'
-import { Navigation, EffectFade, Autoplay } from 'swiper/modules'
+
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Autoplay } from 'swiper/modules'
+
+import { NavButtons } from './NavButtons'
+
+import styles from './Carousel.module.scss'
 
 import 'swiper/css'
 import React from 'react'
+import clsx from 'clsx'
 
-export const Carousel = () => {
+interface CarouselProps {
+	slides: React.ReactNode[]
+	loop?: boolean
+	autoplay?: number
+	navigation?: boolean
+	pagination?: boolean
+	spaceBetween?: number
+	slidesPerView?: number
+	breakpoints?: {
+		[width: number]: { slidesPerView?: number; spaceBetween?: number }
+	}
+	className?: string
+}
+
+export const Carousel: React.FC<CarouselProps> = ({
+	slides,
+	loop = false,
+	autoplay = 0,
+	navigation = false,
+	spaceBetween = 0,
+	slidesPerView = 3,
+	breakpoints,
+	className
+}) => {
 	SwiperCore.use([Autoplay])
+
 	return (
 		<>
 			<Swiper
-				className={styles.container}
+				className={clsx(styles.container, className)}
 				modules={[Navigation, Autoplay]}
-				loop
-				spaceBetween={14}
-				slidesPerView={1}
-				navigation={{
-					nextEl: '.swiper-navigation-next',
-					prevEl: '.swiper-navigation-prev'
-				}}
-				autoplay={{
-					delay: 4000
-				}}
+				loop={loop}
+				spaceBetween={spaceBetween}
+				slidesPerView={slidesPerView}
+				navigation={
+					navigation && {
+						nextEl: '.swiper-navigation-next',
+						prevEl: '.swiper-navigation-prev'
+					}
+				}
+				autoplay={
+					autoplay > 0 && {
+						delay: autoplay
+					}
+				}
+				breakpoints={breakpoints}
 			>
-				{SLIDES.map((slide) => (
-					<SwiperSlide key={slide.id}>
-						<div className={styles.cover}>
-							<Image
-								className={styles.image}
-								width={1000}
-								height={500}
-								src={slide.imageUrl}
-								alt={slide.tag}
-							/>
-						</div>
-					</SwiperSlide>
+				{slides.map((slide, index) => (
+					<SwiperSlide key={index}>{slide}</SwiperSlide>
 				))}
-				<NavButton />
+				{navigation && <NavButtons />}
 			</Swiper>
 		</>
 	)

@@ -1,5 +1,5 @@
-import { PageLayout } from '@/layouts/PageLayout'
-
-export default function Layout({ children }: React.PropsWithChildren<unknown>) {
-	return <PageLayout>{children}</PageLayout>
+export default function RootLayout({
+	children
+}: React.PropsWithChildren<unknown>) {
+	return <main className='main'>{children}</main>
 }

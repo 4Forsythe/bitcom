@@ -28,7 +28,7 @@ export const Pagination = ({ total, align = 'center' }: PaginationProps) => {
 	// }
 
 	const page = Number(searchParams.get('page')) || 1
-	const limit = Number(searchParams.get('limit')) || 20
+	const limit = Number(searchParams.get('limit')) || 10
 
 	const pages = Math.ceil(total / limit)
 	const pageNumbers = []
@@ -73,8 +73,8 @@ export const Pagination = ({ total, align = 'center' }: PaginationProps) => {
 				</li>
 				{pageNumbers.map((number, index) => (
 					<li
-						className={styles.tile}
 						key={index}
+						className={styles.tile}
 					>
 						<button
 							className={clsx(styles.page, {

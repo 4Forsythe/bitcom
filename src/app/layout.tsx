@@ -1,22 +1,21 @@
+import React from 'react'
 import type { Metadata } from 'next'
-import { PT_Sans } from 'next/font/google'
+
+import { Source_Sans_3 } from 'next/font/google'
 
 import { Providers } from './providers'
+import { Header, Footer, CookieBanner } from '@/components'
 import { ModalProvider } from '@/contexts/ModalContext'
-
-import { Header } from '@/components/Header'
-import { Footer } from '@/components/Footer'
 
 import { SITE_NAME, SITE_DESCRIPTION } from '@/constants/seo.constants'
 
 import '@/styles/main.scss'
-import { BottomBanner } from '@/components/BottomBanner'
 
-const ptSans = PT_Sans({
+const sourceSans = Source_Sans_3({
 	subsets: ['latin', 'cyrillic'],
-	weight: ['400', '700'],
-	style: ['normal'],
-	variable: '--font-pt-sans'
+	weight: ['300', '400', '500', '600', '700', '800', '900'],
+	style: ['normal', 'italic'],
+	variable: '--font-source-sans'
 })
 
 export const metadata: Metadata = {
@@ -25,13 +24,6 @@ export const metadata: Metadata = {
 		template: `%s | ${SITE_NAME}`
 	},
 	description: SITE_DESCRIPTION,
-	openGraph: {
-		images: [
-			{
-				url: '/static/LOGO.png'
-			}
-		]
-	},
 	icons: {
 		icon: ['/favicon.ico?v=4'],
 		apple: ['/apple-touch-icon.png?v=4'],
@@ -39,25 +31,18 @@ export const metadata: Metadata = {
 	}
 }
 
-export default function RootLayout({
+export default function AppLayout({
 	children
-}: {
-	children: React.ReactNode
-}) {
+}: React.PropsWithChildren<unknown>) {
 	return (
-		<html
-			lang='ru'
-			className='scroll-smooth'
-		>
-			<body className={ptSans.className}>
+		<html lang='ru'>
+			<body className={sourceSans.variable}>
 				<Providers>
 					<ModalProvider>
+						<CookieBanner />
 						<Header />
-						<div className='container'>
-							<main className='main'>{children}</main>
-						</div>
+						<div className='container'>{children}</div>
 						<Footer />
-						<BottomBanner />
 					</ModalProvider>
 				</Providers>
 			</body>

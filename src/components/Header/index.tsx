@@ -1,46 +1,17 @@
-'use client'
-
 import React from 'react'
-
 import Link from 'next/link'
 import Image from 'next/image'
 
-import { CircleUser, Heart, MapPin, Search, ShoppingCart } from 'lucide-react'
+import { MapPin } from 'lucide-react'
+import { ADDRESS, PHONE } from '@/constants/contacts.constants'
 
-import { Modal } from '@/components/ui/Modal'
-import { AuthForm } from '@/components/AuthForm'
-import { SearchBar } from '@/components/SearchBar'
-import { MenuButton } from '@/components/ui/MenuButton'
-import { Skeleton } from '@/components/ui/MenuButton/Skeleton'
-
-import { useModal } from '@/hooks/useModal'
-import { useProfile } from '@/hooks/useProfile'
-import { useUserStore } from '@/store/user.store'
+import { HeaderMenu, SearchBar, SearchBarSkeleton } from '@/components'
 
 import { ROUTE } from '@/config/routes.config'
 
-import styles from './Header.module.scss'
-import { ADDRESS, PHONE } from '@/constants/contacts.constants'
+import styles from './header.module.scss'
 
-export const Header = () => {
-	const { onOpen } = useModal()
-
-	const { data: profile, isLoading: isProfileLoading } = useProfile()
-
-	const { cartCount, wishListCount, getCartCount, getWishListCount } =
-		useUserStore()
-
-	React.useEffect(() => {
-		getCartCount()
-		getWishListCount()
-	}, [profile])
-
-	const isLoading = isProfileLoading
-
-	const authDialog = () => {
-		if (!!!profile) onOpen(<AuthForm />)
-	}
-
+export const Header: React.FC = () => {
 	return (
 		<>
 			<div className={styles.roof}>
@@ -66,11 +37,11 @@ export const Header = () => {
 					<div className={styles.menu}>
 						<Link
 							className={styles.logotype}
-							href='/'
+							href={ROUTE.HOME}
 						>
 							<Image
 								className={styles.image}
-								width={240}
+								width={230}
 								height={50}
 								src='/static/bitcom-banner.png'
 								alt='Logo'
@@ -78,55 +49,11 @@ export const Header = () => {
 							/>
 						</Link>
 						<div className={styles.bar}>
-							<SearchBar />
+							<React.Suspense fallback={<SearchBarSkeleton />}>
+								<SearchBar />
+							</React.Suspense>
 						</div>
-						<div className={styles.controls}>
-							{isLoading ? (
-								<>
-									{[...new Array(3)].map((item, index) => (
-										<Skeleton key={index} />
-									))}
-								</>
-							) : (
-								<>
-									<div className={styles.search}>
-										<MenuButton
-											tab={{
-												title: 'Поиск',
-												icon: Search,
-												href: ROUTE.SEARCH
-											}}
-										/>
-									</div>
-									<MenuButton
-										tab={{
-											title: 'Корзина',
-											icon: ShoppingCart,
-											href: profile && ROUTE.CART,
-											badge: cartCount ? +cartCount : undefined
-										}}
-										onClick={authDialog}
-									/>
-									<MenuButton
-										tab={{
-											title: 'Желаемое',
-											icon: Heart,
-											href: profile && ROUTE.WISHLIST,
-											badge: wishListCount ? +wishListCount : undefined
-										}}
-										onClick={authDialog}
-									/>
-									<MenuButton
-										tab={{
-											title: profile ? 'Кабинет' : 'Войти',
-											icon: CircleUser,
-											href: profile && ROUTE.PROFILE
-										}}
-										onClick={authDialog}
-									/>
-								</>
-							)}
-						</div>
+						<HeaderMenu />
 					</div>
 				</div>
 			</header>

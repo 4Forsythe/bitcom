@@ -3,32 +3,30 @@
 import React from 'react'
 
 import clsx from 'clsx'
-import { CircleAlert, LoaderCircle, OctagonAlert } from 'lucide-react'
+import { LoaderCircle } from 'lucide-react'
 
-import styles from './Field.module.scss'
+import styles from './field.module.scss'
 
-interface IField extends React.InputHTMLAttributes<HTMLInputElement> {
-	id: string
+export interface IField extends React.InputHTMLAttributes<HTMLInputElement> {
 	label?: string
 	extra?: string
 	variant?: 'contained' | 'outlined'
-	error?: string
 	type?: 'number' | 'text' | 'tel' | 'password'
 	isLoading?: boolean
+	isError?: boolean
 	placeholder?: string
 }
 
 export const Field = React.forwardRef<HTMLInputElement, IField>(
 	(
 		{
-			id,
 			label,
 			className,
 			variant = 'contained',
-			error,
 			type = 'text',
 			placeholder,
 			isLoading,
+			isError,
 			...rest
 		},
 		ref
@@ -48,39 +46,34 @@ export const Field = React.forwardRef<HTMLInputElement, IField>(
 		}
 
 		return (
-			<div className={styles.container}>
-				<div
-					className={clsx(styles.element, {
-						[styles.contained]: variant === 'contained',
-						[styles.outlined]: variant === 'outlined',
-						[styles.warned]: error,
-						[styles.loaded]: isLoading
-					})}
+			<div
+				className={clsx(styles.container, {
+					[styles.contained]: variant === 'contained',
+					[styles.outlined]: variant === 'outlined' || rest.readOnly,
+					[styles.disabled]: rest.disabled,
+					[styles.warned]: isError,
+					[styles.loaded]: isLoading
+				})}
+			>
+				<label
+					htmlFor={rest.id}
+					className={styles.label}
 				>
-					<label
-						htmlFor={id}
-						className={styles.label}
-					>
-						{label}
-					</label>
-					<input
-						id={id}
-						className={clsx(styles.input, className)}
-						ref={ref}
-						type={type !== 'number' ? type : 'text'}
-						disabled={isLoading}
-						placeholder={placeholder}
-						onKeyDown={allowOnlyNumbers}
-						autoComplete='off'
-						{...rest}
-					/>
-					{isLoading && <LoaderCircle className={styles.loader} />}
-				</div>
-				{error && (
-					<span className={styles.message}>
-						<OctagonAlert className={styles.icon} /> {error}
-					</span>
-				)}
+					{label}
+				</label>
+
+				<input
+					ref={ref}
+					className={clsx(styles.input, className)}
+					type={type !== 'number' ? type : 'text'}
+					disabled={isLoading}
+					placeholder={placeholder}
+					onKeyDown={allowOnlyNumbers}
+					autoComplete='off'
+					{...rest}
+				/>
+
+				{isLoading && <LoaderCircle className={styles.loader} />}
 			</div>
 		)
 	}

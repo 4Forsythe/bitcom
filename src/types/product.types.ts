@@ -16,14 +16,20 @@ export type ProductCharacteristicParamsType = {
 
 export type ProductType = {
 	id: string
+
 	name: string
+	description?: string
 	price: number
 	count: number
 	barcode: string
+	imageUrl?: string
+	model?: string
+
 	category?: ProductCharacteristicType
 	device?: ProductCharacteristicType
 	brand?: ProductCharacteristicType
-	model?: ProductCharacteristicType
+
+	createdAt: string
 }
 
 export type ProductsType = {

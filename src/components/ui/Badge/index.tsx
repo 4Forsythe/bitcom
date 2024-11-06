@@ -1,20 +1,24 @@
-import clsx from 'clsx'
-import styles from './Badge.module.scss'
 import Link from 'next/link'
 
+import clsx from 'clsx'
+
+import styles from './Badge.module.scss'
+
 interface BadgeProps {
-	className?: string
-	href?: string
 	children: string | React.ReactNode
+	href?: string
 	variant?: 'contained' | 'outlined'
+	disabled?: boolean
+	className?: string
 	onClick?: () => void
 }
 
 export const Badge = ({
-	className,
-	href,
 	children,
+	href,
 	variant = 'outlined',
+	disabled,
+	className,
 	onClick
 }: BadgeProps) => {
 	return (
@@ -23,10 +27,10 @@ export const Badge = ({
 				<Link
 					className={clsx(styles.container, className, {
 						[styles.contained]: variant === 'contained',
-						[styles.outlined]: variant === 'outlined'
+						[styles.outlined]: variant === 'outlined',
+						[styles.disabled]: disabled
 					})}
 					href={href}
-					target='_blank'
 					onClick={onClick}
 				>
 					{children}
@@ -35,7 +39,8 @@ export const Badge = ({
 				<span
 					className={clsx(styles.container, className, {
 						[styles.contained]: variant === 'contained',
-						[styles.outlined]: variant === 'outlined'
+						[styles.outlined]: variant === 'outlined',
+						[styles.disabled]: disabled
 					})}
 					onClick={onClick}
 				>

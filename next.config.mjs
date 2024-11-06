@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+import withPlaiceholder from '@plaiceholder/next'
+
 const nextConfig = {
 	async rewrites() {
 		return [
@@ -12,18 +14,15 @@ const nextConfig = {
 	images: {
 		remotePatterns: [
 			{
-				protocol: 'https',
+				protocol: 'http',
 				hostname: '*'
 			},
 			{
-				protocol: 'http',
-				hostname: '192.168.1.200'
+				protocol: 'https',
+				hostname: '*'
 			}
 		]
-	},
-	experimental: {
-		missingSuspenseWithCSRBailout: false
 	}
 }
 
-export default nextConfig
+export default withPlaiceholder(nextConfig)

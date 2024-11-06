@@ -7,14 +7,20 @@ import clsx from 'clsx'
 import { useQuery } from '@tanstack/react-query'
 import { Search, X, ArrowUpRight } from 'lucide-react'
 
+import { ROUTE } from '@/config/routes.config'
 import { useDebounce } from '@/hooks/useDebounce'
 
-import { ROUTE } from '@/config/routes.config'
 import { productService } from '@/services/product.service'
 
-import styles from './SearchBar.module.scss'
+import styles from './search-bar.module.scss'
 
-export const SearchBar = () => {
+interface ISearchBarProps {
+	variant?: 'contained' | 'outlined'
+}
+
+export const SearchBar: React.FC<ISearchBarProps> = ({
+	variant = 'outlined'
+}) => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
 
@@ -29,7 +35,7 @@ export const SearchBar = () => {
 
 	const { query } = useDebounce({ value, delay: 700 })
 
-	const { data, isLoading, isSuccess, isError } = useQuery({
+	const { data } = useQuery({
 		queryKey: ['search', query],
 		queryFn: () => productService.getAll({ name: value, take: 10 }),
 		enabled: !!query
@@ -88,6 +94,8 @@ export const SearchBar = () => {
 			<div
 				ref={containerRef}
 				className={clsx(styles.container, {
+					[styles.contained]: variant === 'contained',
+					[styles.outlined]: variant === 'outlined',
 					[styles.focused]: isFocused || isHovered
 				})}
 				onMouseEnter={onMouseEnter}
@@ -101,7 +109,7 @@ export const SearchBar = () => {
 					onKeyDown={onEnterDown}
 					onFocus={() => setIsFocused(true)}
 					type='text'
-					placeholder='Поиск на сайте'
+					placeholder='Поиск в магазине...'
 				/>
 				<div className={styles.controls}>
 					{value && (
@@ -133,12 +141,14 @@ export const SearchBar = () => {
 									<button
 										className={styles.item}
 										onClick={() => {
-											router.push(`${ROUTE.PRODUCT}/${item.id}`)
+											router.push(`${ROUTE.PRODUCT}/${item.id}`, {
+												scroll: true
+											})
 											setIsFocused(false)
 										}}
 									>
 										<Search className={styles.icon} />
-										<p className={styles.title}>{item.name}</p>
+										<p className={styles.title}>{item.name.toLowerCase()}</p>
 										<ArrowUpRight className={styles.icon} />
 									</button>
 								</li>
@@ -150,3 +160,5 @@ export const SearchBar = () => {
 		</>
 	)
 }
+
+export { SearchBarSkeleton } from './skeleton'

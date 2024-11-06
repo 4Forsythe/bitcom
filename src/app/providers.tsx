@@ -2,8 +2,11 @@
 
 import React from 'react'
 
-import { AppProgressBar as ProgressBar } from 'next-nprogress-bar'
+import { Toaster } from 'react-hot-toast'
+import { AppProgressBar } from 'next-nprogress-bar'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+import { MetricsInitializer } from '@/components/metrics-initializer'
 
 export const Providers = ({ children }: React.PropsWithChildren) => {
 	const [clientQuery] = React.useState(
@@ -18,8 +21,12 @@ export const Providers = ({ children }: React.PropsWithChildren) => {
 
 	return (
 		<>
-			<QueryClientProvider client={clientQuery}>{children}</QueryClientProvider>
-			<ProgressBar
+			<Toaster position='bottom-center' />
+			<QueryClientProvider client={clientQuery}>
+				{children}
+				<MetricsInitializer />
+			</QueryClientProvider>
+			<AppProgressBar
 				height='4px'
 				color='#EF4444'
 				options={{ showSpinner: false }}

@@ -10,7 +10,8 @@ const config: Config = {
 	theme: {
 		extend: {
 			fontFamily: {
-				'pt-sans': ['var(--font-pt-sans)', 'sans-serif']
+				'pt-sans': ['var(--font-pt-sans)', 'sans-serif'],
+				'source-sans': ['var(--font-source-sans)', 'sans-serif']
 			},
 			fontSize: {
 				xs: '0.8rem',

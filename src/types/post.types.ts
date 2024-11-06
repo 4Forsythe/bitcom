@@ -1,17 +1,16 @@
 import { UserType } from './user.types'
 
 export type PostType = {
-	id: string
+	slug: string
 
 	title: string
-	content: string
-	imageUrl?: string
-	views: number
-
-	// user: UserType
+	description: string
+	imageUrl: string
+	author: string
+	tags: string[]
+	content?: string
 
 	createdAt: string
-	updatedAt: string
 }
 
 export type PostsType = {

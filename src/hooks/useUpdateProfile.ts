@@ -2,24 +2,29 @@
 
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 
-import type { UserFormType } from '@/types/user.types'
-
-import { useUserStore } from '@/store/user.store'
+import { useUserStore } from '@/store/user'
 import { userService } from '@/services/user.service'
+
+import type { UserFormType } from '@/types/user.types'
 
 export function useUpdateProfile() {
 	const queryClient = useQueryClient()
 
 	const { setUser } = useUserStore()
 
-	const { mutate, error, isPending, isSuccess, isError } = useMutation({
+	const { mutate, isPending, isSuccess, isError } = useMutation({
 		mutationKey: ['update profile'],
 		mutationFn: (data: UserFormType) => userService.update(data),
-		onSuccess: (data) => {
+		onSuccess: (response) => {
 			queryClient.invalidateQueries({ queryKey: ['profile'] })
-			setUser(data)
+			setUser(response)
 		}
 	})
 
-	return { mutate, error, isPending, isSuccess, isError }
+	return {
+		updateProfile: mutate,
+		isUpdateProfilePending: isPending,
+		isUpdateProfileSuccess: isSuccess,
+		isUpdateProfileError: isError
+	}
 }

@@ -4,20 +4,26 @@ import React from 'react'
 
 import { useQuery } from '@tanstack/react-query'
 
-import { useUserStore } from '@/store/user.store'
+import { useCartStore } from '@/store/cart'
 import { cartService } from '@/services/cart.service'
 
 export function useCart() {
-	const { setCart } = useUserStore()
+	const { setCart } = useCartStore()
 
 	const { data, isLoading, isSuccess, isError } = useQuery({
 		queryKey: ['cart'],
-		queryFn: () => cartService.getAll()
+		queryFn: () => cartService.getAll(),
+		retry: 0
 	})
 
 	React.useEffect(() => {
 		if (isSuccess) setCart(data)
 	}, [isSuccess])
 
-	return { data, isLoading, isSuccess, isError }
+	return {
+		cart: data,
+		isCartLoading: isLoading,
+		isCartSuccess: isSuccess,
+		isCartError: isError
+	}
 }

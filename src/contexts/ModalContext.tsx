@@ -1,6 +1,6 @@
 'use client'
 
-import React, { type PropsWithChildren } from 'react'
+import React from 'react'
 
 import { Modal } from '@/components/ui/Modal'
 
@@ -16,11 +16,7 @@ export const ModalContext = React.createContext<IModalContext>({
 	onClose: () => {}
 })
 
-interface ModalProviderProps {
-	children: React.ReactNode
-}
-
-export const ModalProvider = ({ children }: ModalProviderProps) => {
+export const ModalProvider = ({ children }: React.PropsWithChildren) => {
 	const [isOpen, setIsOpen] = React.useState(false)
 	const [context, setContext] = React.useState<React.ReactNode>(null)
 

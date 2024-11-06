@@ -1,5 +1,5 @@
 .container {
-	@apply mt-8 text-zinc-50 bg-zinc-700;
+	@apply mt-8 text-zinc-50 bg-zinc-800;
 	.inner {
 		@apply max-w-[1180px] mx-auto my-0 pt-14 px-14;
 		.navbar {
@@ -7,7 +7,7 @@
 			.menu {
 				@apply min-w-[250px];
 				.title {
-					@apply mb-5 pb-5 text-lg font-extrabold border-b border-zinc-400/50;
+					@apply mb-5 pb-5 text-lg font-bold border-b border-zinc-400/50;
 				}
 				.list {
 					@apply my-4 gap-3 flex flex-col;
@@ -17,8 +17,7 @@
 					.marketplaces {
 						@apply py-1.5 gap-1.5 flex items-center;
 						.market {
-							@apply w-fit px-2 py-1.5 flex items-center justify-center bg-zinc-200 rounded-lg hover:bg-neutral-200/80
-							transition-colors duration-300;
+							@apply w-fit px-3 py-1 flex items-center justify-center grayscale bg-zinc-100 rounded-lg hover:bg-neutral-100/80 hover:grayscale-0 transition-colors duration-300;
 							.image {
 								@apply w-auto h-[1.15rem];
 							}

@@ -5,21 +5,15 @@ export enum GettingType {
 }
 
 export enum PaymentType {
-	CASH = 'При получении',
-	ONLINE = 'Онлайн'
+	CARD = 'Банковской картой онлайн',
+	CASH = 'При получении'
 }
 
 export type OrderItemType = {
 	id: string
-	product: string
+	product: ProductType
 	productId: string
 	count: number
-}
-
-type CustomerType = {
-	name: string
-	email: string
-	phone: string
 }
 
 export type OrderFormType = {
@@ -27,15 +21,35 @@ export type OrderFormType = {
 	customerEmail: string
 	customerPhone: string
 	address?: string
-	productId: string
-	getting: GettingType
-	payment: PaymentType
+	comment?: string
+	gettingMethod: GettingType
+	paymentMethod: PaymentType
 }
 
 export type OrderType = {
 	id: string
-	customer: CustomerType
-	product: ProductType
-	count: number
+
 	total: number
+	items: OrderItemType[]
+	customerName: string
+	customerEmail: string
+	customerPhone: string
+	address?: string
+	comment?: string
+	status: string
+	gettingMethod: string
+	paymentMethod: string
+
+	createdAt: string
+	updatedAt: string
+}
+
+export type OrdersType = {
+	items: OrderType[]
+	count: number
+}
+
+export type OrderParamsType = {
+	take?: number
+	skip?: number
 }

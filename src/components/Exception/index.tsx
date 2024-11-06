@@ -1,11 +1,13 @@
-import styles from './Exception.module.scss'
+import React from 'react'
+
+import styles from './exception.module.scss'
 
 interface ExceptionProps {
 	children?: string
 	reset: () => void
 }
 
-export const Exception = ({ children, reset }: ExceptionProps) => {
+export const Exception: React.FC<ExceptionProps> = ({ children, reset }) => {
 	return (
 		<div className={styles.container}>
 			<span className={styles.emoji}>¯\_(ツ)_/¯</span>

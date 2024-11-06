@@ -1,13 +1,13 @@
 .container {
-	@apply mb-5 px-3.5 inline-flex items-center;
+	@apply mb-3.5 inline-flex items-center;
 	.control {
-		@apply mr-2.5 p-1.5 border border-zinc-300 text-zinc-500 bg-zinc-200 rounded-md hover:bg-zinc-100 transition-colors duration-300;
+		@apply mr-2.5 p-1.5 text-zinc-500 bg-zinc-100/40 rounded-md hover:bg-zinc-200 transition-colors duration-300;
 		.icon {
 			@apply w-auto h-6;
 		}
 	}
 	.title {
-		@apply text-3xl font-extrabold;
+		@apply text-3xl font-bold;
 	}
 }
 

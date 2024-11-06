@@ -13,10 +13,8 @@ class ROUTES {
 
 	PROFILE = `${this.BASE_URL}my`
 	ORDERLIST = `${this.BASE_URL}my/order-list`
-	ARTICLES = `${this.BASE_URL}my/articles`
 
 	BLOG = `${this.BASE_URL}blog`
-	EDITOR = `${this.BASE_URL}write`
 
 	SERVICE = `${this.BASE_URL}service-center`
 	ASSEMBLY = `${this.BASE_URL}build-pc`

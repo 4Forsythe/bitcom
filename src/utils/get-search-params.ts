@@ -27,8 +27,8 @@ export const getSearchParams = (searchParams?: SearchParamsType) => {
 		searchParams && searchParams['page'] ? Number(searchParams['page']) ?? 1 : 1
 	const limit =
 		searchParams && searchParams['limit']
-			? Number(searchParams['limit']) ?? 20
-			: 20
+			? Number(searchParams['limit']) ?? 10
+			: 10
 
 	return {
 		query,

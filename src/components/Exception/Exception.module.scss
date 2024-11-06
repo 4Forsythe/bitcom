@@ -1,7 +1,7 @@
 .container {
 	@apply gap-1.5 flex flex-col items-center;
 	.emoji {
-		@apply text-8xl font-bold;
+		@apply text-8xl font-semibold;
 	}
 	.super {
 		@apply mt-5 text-2xl;

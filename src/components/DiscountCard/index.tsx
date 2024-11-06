@@ -1,17 +1,18 @@
+import React from 'react'
 import Link from 'next/link'
 
+import { DiscountCardSkeleton } from './skeleton'
+
+import { ROUTE } from '@/config/routes.config'
 import { calcActionCountdown } from '@/utils/calc-action-countdown'
 import { formatCase } from '@/utils/format-case'
 import { calcNounDeclension } from '@/utils/calc-noun-declension'
 
-import { ROUTE } from '@/config/routes.config'
-
 import type { DiscountType } from '@/types/discount.types'
 
-import styles from './DiscountCard.module.scss'
-import { Skeleton } from './Skeleton'
+import styles from './discount-card.module.scss'
 
-export const DiscountCard = ({
+export const DiscountCard: React.FC<DiscountType> = ({
 	id,
 	dateBegin,
 	dateEnd,
@@ -19,7 +20,7 @@ export const DiscountCard = ({
 	target,
 	targetId,
 	type
-}: DiscountType) => {
+}) => {
 	// if (!percent) {
 	// 	return <Skeleton />
 	// }
@@ -44,3 +45,5 @@ export const DiscountCard = ({
 		</article>
 	)
 }
+
+export { DiscountCardSkeleton } from './skeleton'

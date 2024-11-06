@@ -1,12 +1,13 @@
+import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 import { INFOS, SERVICES, CONTACTS } from './menu.data'
 
-import styles from './Footer.module.scss'
-import Image from 'next/image'
-import clsx from 'clsx'
+import styles from './footer.module.scss'
+import { MARKETPLACES } from '@/constants/marketplaces.constants'
 
-export const Footer = () => {
+export const Footer: React.FC = () => {
 	return (
 		<footer className={styles.container}>
 			<div className={styles.inner}>
@@ -15,45 +16,32 @@ export const Footer = () => {
 						<h6 className={styles.title}>Информация</h6>
 						<ul className={styles.list}>
 							{INFOS.map((item) => (
-								<li>
+								<li key={item.href}>
 									<Link
 										className={styles.item}
 										href={item.href}
-										target='_blank'
 									>
 										{item.label}
 									</Link>
 								</li>
 							))}
 							<li className={styles.marketplaces}>
-								<Link
-									className={styles.market}
-									href='https://www.avito.ru/brands/bitcom63'
-									target='_blank'
-								>
-									<Image
-										className={styles.image}
-										width={100}
-										height={100}
-										src='/icons/Avito.svg'
-										alt='Avito'
-										priority
-									/>
-								</Link>
-								<Link
-									className={styles.market}
-									href='https://market.yandex.ru/business--resurstekhno-elektronika/1148896'
-									target='_blank'
-								>
-									<Image
-										className={styles.image}
-										width={100}
-										height={100}
-										src='/icons/Market.svg'
-										alt='Yandex.Market'
-										priority
-									/>
-								</Link>
+								{MARKETPLACES.map((item) => (
+									<Link
+										key={item.id}
+										className={styles.market}
+										href={item.href}
+									>
+										<Image
+											className={styles.image}
+											width={100}
+											height={100}
+											src={item.imageUrl}
+											alt={item.id}
+											priority
+										/>
+									</Link>
+								))}
 							</li>
 						</ul>
 					</div>
@@ -61,11 +49,10 @@ export const Footer = () => {
 						<h6 className={styles.title}>Услуги</h6>
 						<ul className={styles.list}>
 							{SERVICES.map((item) => (
-								<li>
+								<li key={item.href}>
 									<Link
 										className={styles.item}
 										href={item.href}
-										target='_blank'
 									>
 										{item.label}
 									</Link>
@@ -77,11 +64,10 @@ export const Footer = () => {
 						<h6 className={styles.title}>Контакты</h6>
 						<ul className={styles.list}>
 							{CONTACTS.map((item) => (
-								<li>
+								<li key={item.href}>
 									<Link
 										className={styles.item}
 										href={item.href}
-										target='_blank'
 									>
 										{item.label}
 									</Link>
@@ -92,7 +78,8 @@ export const Footer = () => {
 				</nav>
 				<div className={styles.copyright}>
 					<span className={styles.text}>
-						{new Date().getFullYear()} © БИТКОМ — Все права защищены
+						{new Date().getFullYear()} © БИТКОМ — Все права защищены, ОГРН
+						1246300005511, ИНН 6320079508
 					</span>
 				</div>
 			</div>

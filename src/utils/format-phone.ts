@@ -19,8 +19,8 @@ export const formatPhone = (value: string) => {
 		return `${number[0]} (${number.slice(1, 4)}) ${number.slice(4)}`
 	}
 	if (length < 11) {
-		return `${number[0]} (${number.slice(1, 4)}) ${number.slice(4, 7)}-${number.slice(7)}`
+		return `${number[0]} (${number.slice(1, 4)}) ${number.slice(4, 7)} ${number.slice(7)}`
 	}
 
-	return `${number[0]} (${number.slice(1, 4)}) ${number.slice(4, 7)}-${number.slice(7, 11)}`
+	return `${number[0]} (${number.slice(1, 4)}) ${number.slice(4, 7)} ${number.slice(7, 9)}-${number.slice(9, 11)}`
 }

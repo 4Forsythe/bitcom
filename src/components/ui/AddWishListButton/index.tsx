@@ -3,21 +3,21 @@
 import clsx from 'clsx'
 import { Heart, LoaderCircle } from 'lucide-react'
 
-import styles from './AddWishListButton.module.scss'
+import styles from './AddWishlistButton.module.scss'
 
-interface AddWishListButtonProps
+interface AddWishlistButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: 'contained' | 'outlined'
 	isLoading?: boolean
 }
 
-export const AddWishListButton = ({
+export const AddWishlistButton = ({
 	className,
 	children,
 	variant = 'contained',
 	isLoading,
 	...rest
-}: AddWishListButtonProps) => {
+}: AddWishlistButtonProps) => {
 	return (
 		<button
 			className={clsx(styles.container, className, {

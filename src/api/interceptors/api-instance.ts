@@ -23,9 +23,11 @@ export const apiWithHeaders = axios.create(options)
 apiWithHeaders.interceptors.request.use((config) => {
 	const accessToken = getAccessToken()
 
-	if (!accessToken) {
-		return Promise.reject(new Error('unauthorized or token expired'))
-	}
+	// if (!accessToken) {
+	// 	return Promise.reject(new Error('unauthorized or token expired'))
+	// }
+
+	console.log('token', accessToken)
 
 	if (config?.headers && accessToken) {
 		config.headers.Authorization = `Bearer ${accessToken}`
@@ -41,18 +43,17 @@ apiWithHeaders.interceptors.response.use(
 
 		if (
 			(error?.response?.status === 401 ||
-				errorCatch(error) === 'jwt expired' ||
-				errorCatch(error) === 'jwt must be provided') &&
+				errorCatch(error) === 'JWT is expired' ||
+				errorCatch(error) === 'JWT must be provided') &&
 			error.config &&
 			!error.config._isRetry
 		) {
 			req._isRetry = true
-
 			try {
 				await authService.getTokens()
 				return apiWithHeaders.request(req)
 			} catch (error) {
-				errorCatch(error) === 'jwt expired' && removeAccessToken()
+				errorCatch(error) === 'JWT is expired' && removeAccessToken()
 			}
 		}
 
