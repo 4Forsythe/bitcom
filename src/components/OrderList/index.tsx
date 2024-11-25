@@ -2,22 +2,18 @@
 
 import React from 'react'
 
-import {
-	OrderListItem,
-	Pagination,
-	WishlistItemSkeleton,
-	EmptyBlock
-} from '@/components'
+import { OrderListItem, Pagination, EmptyBlock } from '@/components'
 
 import { useOrders } from '@/hooks/useOrders'
 
-import styles from './order-list.module.scss'
 import { OrderListItemSkeleton } from '../OrderListItem'
 import { useOrdersStore } from '@/store/orders'
 
+import styles from './order-list.module.scss'
+
 export const OrderList: React.FC = () => {
-	const { items, count } = useOrdersStore()
 	const { isOrdersLoading } = useOrders()
+	const { items, count } = useOrdersStore()
 
 	return (
 		<div className={styles.container}>
@@ -33,12 +29,14 @@ export const OrderList: React.FC = () => {
 							/>
 						))}
 			</div>
+
 			{!isOrdersLoading && !(items.length > 0) && (
 				<EmptyBlock
 					title='У вас пока нет ни одного заказа'
 					description='Оформляйте заказы и покупки через сайт, чтобы они могли появляться здесь!'
 				/>
 			)}
+
 			{items.length > 0 && <Pagination total={count} />}
 		</div>
 	)

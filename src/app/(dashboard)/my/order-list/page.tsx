@@ -1,3 +1,4 @@
+import React from 'react'
 import type { Metadata } from 'next'
 
 import { Heading, OrderList } from '@/components'
@@ -13,7 +14,9 @@ export default async function OrdersPage() {
 	return (
 		<>
 			<Heading title='Заказы' />
-			<OrderList />
+			<React.Suspense>
+				<OrderList />
+			</React.Suspense>
 		</>
 	)
 }
